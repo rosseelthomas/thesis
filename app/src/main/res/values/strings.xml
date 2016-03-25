@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BLE</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ble_list">BleListActivity</string>
+    <string name="title_activity_ble_data">BleDataActivity</string>
+    <string name="title_activity_service">Browse Services</string>
+    <string name="title_activity_characteristic">Browsing Characteristics</string>
+    <string name="title_activity_data">I/O</string>
+</resources>
