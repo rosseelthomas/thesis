@@ -82,6 +82,7 @@ public class BleListActivity extends AppCompatActivity {
     private long timer;
     private NsdManager.DiscoveryListener mDiscoveryListener;
     private  boolean discovering;
+    private ArrayList<String> macs;
 
 
     CoapServer srv;
@@ -137,8 +138,12 @@ public class BleListActivity extends AppCompatActivity {
                         devicename = devicebase + suffix;
                         suffix++;
                     }
+                    devicename  = devicename.replaceAll(";","\\\\;");
 
 
+                    BLEResource bler = (BLEResource) srv.getRoot().getChild("ble");
+                    bler.addDevice(devicename);
+                    bler.addDevice(scanned_device.getDevice().getAddress());
                     final DeviceResource t = new DeviceResource(devicename, devicename);
                     DeviceResource macResource = new DeviceResource("mac", "mac address");
                     macResource.setRequestHandler(new RequestHandler() {
@@ -348,6 +353,8 @@ public class BleListActivity extends AppCompatActivity {
                 .build();
         filters = new ArrayList<ScanFilter>();
         srv = new CoapServer();
+        Resource bleres = new BLEResource("ble");
+        srv.add(bleres);
 
 
 
@@ -364,6 +371,7 @@ public class BleListActivity extends AppCompatActivity {
 
 
         srv.start();
+        macs = new ArrayList<>();
         srv.getRoot().add(new DeviceResource("macs", "ble macs"));
 
 
@@ -676,7 +684,7 @@ public class BleListActivity extends AppCompatActivity {
 
                 try {
 
-                    URI uri = new URI("coap", null, "255.255.255.255", COAP_PORT, "/.well-known/core", null, null);
+                    URI uri = new URI("coap", null, "255.255.255.255", COAP_PORT, "/ble", null, null);
 
                     InetSocketAddress addr = new InetSocketAddress(0);
 
@@ -693,7 +701,7 @@ public class BleListActivity extends AppCompatActivity {
 
 
                     CoapEndpoint e = new CoapEndpoint();
-
+/*
                     e.setExecutor(new ScheduledThreadPoolExecutor(10));
                     e.addInterceptor(new MessageInterceptor() {
                         @Override
@@ -742,6 +750,7 @@ public class BleListActivity extends AppCompatActivity {
 
                                 ParseResult p = COAPParser.parse(txt);
                                 Log.i("parsed", "parsed");
+                                String[] splits = txt.split("(?<!\\\\);");
 
 
                                 for (final ParseResult child : p.getChildren()) {
@@ -771,11 +780,11 @@ public class BleListActivity extends AppCompatActivity {
                         public void receiveEmptyMessage(EmptyMessage message) {
 
                         }
-                    });
+                    });*/
 
-                    CoapClient c = new CoapClient(uri);
+                   // CoapClient c = new CoapClient(uri);
 
-                    c.setEndpoint(e);
+                    //c.setEndpoint(e);
                     Response resp = coapRequest.send().waitForResponse(2000);
                     while(resp!=null){
 
@@ -806,26 +815,23 @@ public class BleListActivity extends AppCompatActivity {
 
                             ParseResult p = COAPParser.parse(txt);
                             Log.i("parsed", "parsed");
+                            final String[] splits = txt.split("(?<!\\\\);");
+
+                            for (int i=0;i<splits.length;++i) {
 
 
-                            for (final ParseResult child : p.getChildren()) {
-                                boolean is_ble_device = false;
-                                for (ParseResult subchild : child.getChildren()) {
-                                    if (subchild.getId().equals("mac")) {
-                                        is_ble_device = true;
-                                    }
-                                }
-                                if (is_ble_device) {
                                     final Response finalResp = resp;
-                                    runOnUiThread(new Runnable() {
+                                final int finalI = i;
+                                runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            arradapter.add(new COAPDevice(finalResp.getSource().getHostAddress(), finalResp.getSourcePort(), child.getId(), child.getTitle()));
+                                            arradapter.add(new COAPDevice(finalResp.getSource().getHostAddress(), finalResp.getSourcePort(), splits[finalI], splits[finalI]));
 
                                         }
                                     });
                                     //Log.i("timer-multicast", "resource found in " + (System.currentTimeMillis() - timer) + " ms");
-                                }
+                                i++;
+
                             }
 
                         }
