@@ -20,6 +20,7 @@ import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,11 +33,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.CoapServer;
 import org.eclipse.californium.core.coap.BlockOption;
 import org.eclipse.californium.core.coap.CoAP;
 import org.eclipse.californium.core.coap.EmptyMessage;
+import org.eclipse.californium.core.coap.MessageObserver;
 import org.eclipse.californium.core.coap.Request;
 import org.eclipse.californium.core.coap.Response;
 import org.eclipse.californium.core.network.CoapEndpoint;
@@ -50,17 +53,26 @@ import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +95,10 @@ public class BleListActivity extends AppCompatActivity {
     private NsdManager.DiscoveryListener mDiscoveryListener;
     private  boolean discovering;
     private ArrayList<String> macs;
+    private ArrayList<BLEProxyDevice> alldevices;
+    private ArrayList<BLEProxyDevice> phydevices;
+    private DeviceResource stateres;
+    private String state = "ONLINE";
 
 
     CoapServer srv;
@@ -95,6 +111,94 @@ public class BleListActivity extends AppCompatActivity {
     private static final long SCAN_PERIOD = 10000;
 
 
+
+    private Timer ttl_timer;
+    private TimerTask ttl_task = new TimerTask() {
+        @Override
+        public void run() {
+            for(BLEProxyDevice d : (ArrayList<BLEProxyDevice>) alldevices.clone()){
+                if(d.getTtl()<0){
+                    alldevices.remove(d);
+                    ListView l = (ListView) findViewById(R.id.list);
+                    final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arradapter.clear();
+                            arradapter.addAll(getDiscoveredDevices());
+
+
+                        }
+                    });
+
+                    //srv.remove()
+                    if(phydevices.contains(d)){
+                        phydevices.remove(d);
+                        URI uri = URI.create(d.getPath());
+                        String res = uri.getPath().split("/")[1];
+                        srv.remove(srv.getRoot().getChild(res));
+                    }
+
+                }
+            }
+
+        }
+    };
+
+    private TimerTask check_coap_servers = new TimerTask() {
+        @Override
+        public void run() {
+
+            Set<String> hosts = new HashSet<>();
+            for(BLEProxyDevice d : (ArrayList<BLEProxyDevice>) alldevices.clone()){
+
+                URI u = URI.create(d.getPath());
+                String host = u.getHost();
+                //add host to set
+                hosts.add(host);
+            }
+
+            //ping all hosts, if certain host reachable, adapt ttl
+
+            for(String host : hosts){
+                CoapClient c = new CoapClient("coap://"+host+":"+COAP_PORT);
+                if(c.ping(5000)){
+                    //adapt ttl
+                    for(BLEProxyDevice d : (ArrayList<BLEProxyDevice>) alldevices.clone()){
+
+                        URI u = URI.create(d.getPath());
+                        String my_ip = getIPAddress(true);
+                        if(u.getHost().equals(host) && !u.getHost().equals(my_ip)){
+                            d.setTtl(60);
+                            ListView l = (ListView) findViewById(R.id.list);
+                            final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    arradapter.clear();
+                                    arradapter.addAll(getDiscoveredDevices());
+
+
+                                }
+                            });
+                        }
+
+                    }
+                }
+            }
+
+
+
+        }
+    };
+
+    private TimerTask discover_coap_servers = new TimerTask() {
+        @Override
+        public void run() {
+            discoverCOAP();
+
+        }
+    };
 
 
 
@@ -117,20 +221,20 @@ public class BleListActivity extends AppCompatActivity {
             Log.i("result", result.toString());
             BluetoothDevice btDevice = result.getDevice();
 
-            if (result.getDevice().getName() != null && !devices.contains(result.getDevice())) {
+            if (result.getDevice().getName() != null ) {
 
 
                 Log.i("ble-scan", "device added");
 
-                devices.add(result.getDevice());
-                ListView l = (ListView) findViewById(R.id.list);
-                ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+                //devices.add(result.getDevice());
+
+
                 final BLEDevice scanned_device = new BLEDevice(result.getDevice());
-                arradapter.insert(scanned_device, arradapter.getCount());
+                //arradapter.insert(scanned_device, arradapter.getCount());
 
 
 
-                if(!containsResource(srv.getRoot().getChild("macs").getChildren(),result.getDevice().getAddress())){
+                if(getPHYDeviceByMAC(result.getDevice().getAddress()) == null){//else adapt ttl
                     String devicename = scanned_device.getDevice().getName();
                     String devicebase = devicename;
                     int suffix = 1;
@@ -139,11 +243,34 @@ public class BleListActivity extends AppCompatActivity {
                         suffix++;
                     }
                     devicename  = devicename.replaceAll(";","\\\\;");
+                    devicebase  = devicebase.replaceAll(";","\\\\;");
 
 
                     BLEResource bler = (BLEResource) srv.getRoot().getChild("ble");
                     bler.addDevice(devicename);
                     bler.addDevice(scanned_device.getDevice().getAddress());
+
+                    BLEProxyDevice bpd = new BLEProxyDevice(devicebase, scanned_device.getDevice().getAddress(), "coap://"+getIPAddress(true)+":5683/"+devicename, 10);
+                    if(!alldevices.contains(bpd)){
+                        alldevices.add(bpd);
+                        ListView l = (ListView) findViewById(R.id.list);
+                        final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                arradapter.clear();
+                                arradapter.addAll(getDiscoveredDevices());
+
+
+                            }
+                        });
+                    }else{
+                        bpd = searchDevice(bpd.getMac(),bpd.getPath());
+                    }
+                    if(!phydevices.contains(bpd)){
+                        phydevices.add(bpd);
+                    }
+
                     final DeviceResource t = new DeviceResource(devicename, devicename);
                     DeviceResource macResource = new DeviceResource("mac", "mac address");
                     macResource.setRequestHandler(new RequestHandler() {
@@ -157,7 +284,21 @@ public class BleListActivity extends AppCompatActivity {
 
                         }
                     });
+
                     t.add(macResource);
+                    DeviceResource statusResource = new DeviceResource("status", "status");
+                    statusResource.setRequestHandler(new RequestHandler() {
+                        @Override
+                        public void handleGET(CoapExchange ex) {
+                            ex.respond(scanned_device.getStatus());
+                        }
+
+                        @Override
+                        public void handlePUT(CoapExchange ex) {
+
+                        }
+                    });
+                    t.add(statusResource);
                     RequestHandler req = new RequestHandler() {
                         @Override
                         public void handleGET(final CoapExchange ex) {
@@ -291,12 +432,37 @@ public class BleListActivity extends AppCompatActivity {
                     if (!containsResource(srv.getRoot().getChildren(), t.getName())) {
 
                         srv.add(t);
-                        srv.getRoot().getChild("macs").add(new DeviceResource(result.getDevice().getAddress(),result.getDevice().getAddress()));
+                        //srv.getRoot().getChild("macs").add(new DeviceResource(result.getDevice().getAddress(),result.getDevice().getAddress()));
+
+                        //broadcast that we discovered a new ble device, broadcast devicebase, mac address and path
+                        sendBroadcast(devicebase + ";" + result.getDevice().getAddress() + ";" + "/" + devicename);
+
+                        //macs.add(result.getDevice().getAddress());
                     }
+                }else{
+                    BLEProxyDevice searched = getPHYDeviceByMAC(result.getDevice().getAddress());
+
+                    if(searched == null ){
+                        searched = searchDeviceByIP(result.getDevice().getAddress(), getIPAddress(true));
+                        phydevices.add(searched);
+
+                    }
+
+                    searched.setTtl(100);
                 }
 
             }
 
+            ListView l = (ListView) findViewById(R.id.list);
+            final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    arradapter.clear();
+                    arradapter.addAll(getDiscoveredDevices());
+
+                }
+            });
 
         }
     };
@@ -307,8 +473,8 @@ public class BleListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ble_list);
 
         ListView l = (ListView) findViewById(R.id.list);
-        ArrayList<Device> vals = new ArrayList<>();
-        ArrayAdapter<Device> arradapter = new ArrayAdapter<Device>(this, android.R.layout.simple_list_item_1, android.R.id.text1, vals);
+        ArrayList<String> vals = new ArrayList<>();
+        ArrayAdapter<String> arradapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, vals);
 
         l.setAdapter(arradapter);
 
@@ -318,7 +484,7 @@ public class BleListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getBaseContext(), ServiceActivity.class);
                 ListView l = (ListView) findViewById(R.id.list);
-                ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+                ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
                 intent.putExtra("resource", "DEVICE");
                 MyApplication.putResource("DEVICE", arradapter.getItem(position));
                 startActivity(intent);
@@ -355,6 +521,40 @@ public class BleListActivity extends AppCompatActivity {
         srv = new CoapServer();
         Resource bleres = new BLEResource("ble");
         srv.add(bleres);
+        DeviceResource bleproxy = new DeviceResource("ble-proxy","ble-proxy");
+        bleproxy.setRequestHandler(new RequestHandler() {
+            @Override
+            public void handleGET(CoapExchange ex) {
+                String s = "";
+                for (BLEProxyDevice d : alldevices) {
+                    s += d.toResource();
+                }
+                ex.respond(s);
+            }
+
+            @Override
+            public void handlePUT(CoapExchange ex) {
+
+            }
+        });
+
+    srv.add(bleproxy);
+
+        stateres = new DeviceResource("state","state");
+        stateres.setRequestHandler(new RequestHandler() {
+            @Override
+            public void handleGET(CoapExchange ex) {
+                ex.respond(state);
+            }
+
+            @Override
+            public void handlePUT(CoapExchange ex) {
+
+            }
+        });
+        stateres.setObservable(true);
+
+        srv.add(stateres);
 
 
 
@@ -372,8 +572,29 @@ public class BleListActivity extends AppCompatActivity {
 
         srv.start();
         macs = new ArrayList<>();
-        srv.getRoot().add(new DeviceResource("macs", "ble macs"));
+        alldevices = new ArrayList<>();
+        phydevices = new ArrayList<>();
+        //srv.getRoot().add(new DeviceResource("macs", "ble macs"));
+        ttl_timer = new Timer();
+        ttl_timer.scheduleAtFixedRate(ttl_task, 0, 5000);
+        //ttl_timer.scheduleAtFixedRate(check_coap_servers,0,5000);
+        ttl_timer.scheduleAtFixedRate(discover_coap_servers,0,5000);
+        ttl_timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                ListView l = (ListView) findViewById(R.id.list);
+                final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        arradapter.clear();
+                        arradapter.addAll(getDiscoveredDevices());
 
+
+                    }
+                });
+            }
+        },0,1000);
 
     }
 
@@ -406,14 +627,15 @@ public class BleListActivity extends AppCompatActivity {
 
 
         // Stops scanning after a pre-defined scan period.
-        mHandler.postDelayed(new Runnable() {
+        /*mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 mScanning = false;
                 mLEScanner.stopScan(mScanCallback);
                 Log.i("ble-scan", "scan stopped");
+                BLEScan();
             }
-        }, SCAN_PERIOD);
+        }, SCAN_PERIOD);*/
 
         mScanning = true;
         mLEScanner.startScan(filters, settings, mScanCallback);
@@ -421,11 +643,23 @@ public class BleListActivity extends AppCompatActivity {
     }
 
     public void refresh_click(View v) {
+        /*
         devices.clear();
         ListView l = (ListView) findViewById(R.id.list);
-        ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+        ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
         arradapter.clear();
-        BLEScan();
+        BLEScan();*/
+
+        ListView l = (ListView) findViewById(R.id.list);
+        final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                arradapter.clear();
+                arradapter.addAll(getDiscoveredDevices());
+
+            }
+        });
 
 /*
         //TESTING TIMES
@@ -441,7 +675,7 @@ public class BleListActivity extends AppCompatActivity {
 
         }
 */
-        discoverCOAP();
+       // discoverCOAP();
 
 
     }
@@ -465,6 +699,8 @@ public class BleListActivity extends AppCompatActivity {
 
         if (multicastLock != null)
             multicastLock.release();
+
+
     }
 
     @Override
@@ -482,10 +718,12 @@ public class BleListActivity extends AppCompatActivity {
 
         devices.clear();
         ListView l = (ListView) findViewById(R.id.list);
-        ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+        ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
         arradapter.clear();
         BLEScan();
-        discoverCOAP();
+      //  discoverCOAP();
+
+
 
 
     }
@@ -564,6 +802,7 @@ public class BleListActivity extends AppCompatActivity {
 
                 for (InetAddress ipaddr : EndpointManager.getEndpointManager().getNetworkInterfaces()) {
                     // only binds to IPv4 addresses and localhost
+
                     if (ipaddr instanceof Inet4Address || ipaddr.isLoopbackAddress()) {
 
                         if (ipaddr.getHostAddress().equals(serviceInfo.getHost().getHostAddress())) {
@@ -596,7 +835,7 @@ public class BleListActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ListView l = (ListView) findViewById(R.id.list);
-                                    final ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+                                    final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
                                     // arradapter.add(new COAPDevice());
 
 
@@ -680,11 +919,11 @@ public class BleListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ListView l = (ListView) findViewById(R.id.list);
-                final ArrayAdapter<Device> arradapter = (ArrayAdapter<Device>) l.getAdapter();
+                final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
 
                 try {
 
-                    URI uri = new URI("coap", null, "255.255.255.255", COAP_PORT, "/ble", null, null);
+                    URI uri = new URI("coap", null, "255.255.255.255", COAP_PORT, "/ble-proxy", null, null);
 
                     InetSocketAddress addr = new InetSocketAddress(0);
 
@@ -694,97 +933,11 @@ public class BleListActivity extends AppCompatActivity {
                     coapRequest.setURI(uri);
 
                     coapRequest.setSource(addr.getAddress());
-                    //coapRequest.cancel();
+
                     coapRequest.setType(CoAP.Type.NON);
                     coapRequest.setMulticast(true);
 
 
-
-                    CoapEndpoint e = new CoapEndpoint();
-/*
-                    e.setExecutor(new ScheduledThreadPoolExecutor(10));
-                    e.addInterceptor(new MessageInterceptor() {
-                        @Override
-                        public void sendRequest(Request request) {
-
-                        }
-
-                        @Override
-                        public void sendResponse(Response response) {
-
-                        }
-
-                        @Override
-                        public void sendEmptyMessage(EmptyMessage message) {
-
-                        }
-
-                        @Override
-                        public void receiveRequest(Request request) {
-
-                        }
-
-                        @Override
-                        public void receiveResponse(final Response response) {
-                            boolean is_same_host = false;
-
-                            for (InetAddress ipaddr : EndpointManager.getEndpointManager().getNetworkInterfaces()) {
-                                // only binds to IPv4 addresses and localhost
-                                if (ipaddr instanceof Inet4Address || ipaddr.isLoopbackAddress()) {
-
-                                    if (ipaddr.getHostAddress().equals(response.getSource().getHostAddress())) {
-                                        Log.i("response", "dropping response from same host");
-                                        is_same_host = true;
-                                    }
-
-                                }
-                            }
-
-                            if (!is_same_host) {
-
-                                Log.i("response", "response from other host");
-                                final Response ui_response = response;
-                                Log.i("resp", response.getPayloadString());
-                                String txt = response.getPayloadString();
-
-
-                                ParseResult p = COAPParser.parse(txt);
-                                Log.i("parsed", "parsed");
-                                String[] splits = txt.split("(?<!\\\\);");
-
-
-                                for (final ParseResult child : p.getChildren()) {
-                                    boolean is_ble_device = false;
-                                    for (ParseResult subchild : child.getChildren()) {
-                                        if (subchild.getId().equals("mac")) {
-                                            is_ble_device = true;
-                                        }
-                                    }
-                                    if (is_ble_device) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                arradapter.add(new COAPDevice(response.getSource().getHostAddress(), response.getSourcePort(), child.getId(), child.getTitle()));
-
-                                            }
-                                        });
-                                        Log.i("timer-multicast", "resource found in " + (System.currentTimeMillis() - timer) + " ms");
-                                    }
-                                }
-
-                            }
-
-                        }
-
-                        @Override
-                        public void receiveEmptyMessage(EmptyMessage message) {
-
-                        }
-                    });*/
-
-                   // CoapClient c = new CoapClient(uri);
-
-                    //c.setEndpoint(e);
                     Response resp = coapRequest.send().waitForResponse(2000);
                     while(resp!=null){
 
@@ -815,34 +968,53 @@ public class BleListActivity extends AppCompatActivity {
 
                             ParseResult p = COAPParser.parse(txt);
                             Log.i("parsed", "parsed");
-                            final String[] splits = txt.split("(?<!\\\\);");
+                            //final String[] splits = txt.split("(?<!\\\\);");
 
-                            for (int i=0;i<splits.length;++i) {
+                            List<BLEProxyDevice> bleProxyDevices;
+
+                            try{
+                                bleProxyDevices = BleProxyParser.parse(txt, resp.getSource().getHostAddress());
+                            }catch (Exception e){
+                                bleProxyDevices = new ArrayList<>();
+                            }
 
 
-                                    final Response finalResp = resp;
-                                final int finalI = i;
-                                runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            arradapter.add(new COAPDevice(finalResp.getSource().getHostAddress(), finalResp.getSourcePort(), splits[finalI], splits[finalI]));
 
-                                        }
-                                    });
-                                    //Log.i("timer-multicast", "resource found in " + (System.currentTimeMillis() - timer) + " ms");
-                                i++;
+
+
+                            for(BLEProxyDevice b : bleProxyDevices){
+                                BLEProxyDevice dev = searchDevice(b.getMac(), b.getPath());
+                                if(dev == null){
+                                    dev = b;
+                                    if(b.getTtl()>=0){
+
+                                        alldevices.add(dev);
+                                    }
+                                }else if(!phydevices.contains(dev)){
+
+                                    URI u = URI.create(dev.getPath());
+                                    if(u.getHost().equals(resp.getSource().getHostAddress())){
+                                        dev.setTtl(b.getTtl());
+                                    }
+
+                                }
 
                             }
 
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    arradapter.clear();
+                                    arradapter.addAll(getDiscoveredDevices());
+
+                                }
+                            });
+
+
+                            resp = null;
+                        }else{
+                            resp = coapRequest.send().waitForResponse(2000);
                         }
-
-
-
-
-                        resp = coapRequest.send().waitForResponse(2000);
-
-
-
 
 
 
@@ -866,7 +1038,112 @@ public class BleListActivity extends AppCompatActivity {
 
     }
 
+    public void sendBroadcast(String messageStr) {
+        // Hack Prevent crash (sending should be done using an async task)
+        StrictMode.ThreadPolicy policy = new   StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
+        try {
+            //Open a random port to send the package
+            DatagramSocket socket = new DatagramSocket();
+            socket.setBroadcast(true);
+            byte[] sendData = messageStr.getBytes();
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 6666);
+            socket.send(sendPacket);
+            System.out.println(getClass().getName() + "Broadcast packet sent to: " + "255.255.255.255");
+        } catch (IOException e) {
+            Log.d("broadcast", "IOException: " + e.getMessage());
+        }
+    }
+
+    private ArrayList<String> getDiscoveredDevices(){
+        ArrayList<String> ds = new ArrayList<>();
+        for(BLEProxyDevice d : alldevices){
+            ds.add(d.toString());
+        }
+        return ds;
+    }
+
+    private BLEProxyDevice searchDevice(String mac, String path){
+        for(BLEProxyDevice d : alldevices){
+            if(d.getMac().equals(mac) && d.getPath().equals(path)){
+                return d;
+            }
+        }
+        return null;
+    }
+
+    private BLEProxyDevice searchDeviceByIP(String mac, String ip){
+        for(BLEProxyDevice d : alldevices){
+            URI u = URI.create(d.getPath());
+            if(d.getMac().equals(mac) && u.getHost().equals(ip)){
+                return d;
+            }
+        }
+        return null;
+    }
+
+
+
+    private BLEProxyDevice getPHYDeviceByMAC(String mac){
+        for(BLEProxyDevice d : phydevices){
+            if(d.getMac().equals(mac)) return d;
+        }
+        return null;
+    }
+
+
+    /**
+     * Get IP address from first non-localhost interface
+     * @param useIPv4  true=return ipv4, false=return ipv6
+     * @return  address or empty string
+     */
+    private String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress();
+                        //boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr);
+                        boolean isIPv4 = sAddr.indexOf(':')<0;
+
+                        if (useIPv4) {
+                            if (isIPv4)
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 zone suffix
+                                return delim<0 ? sAddr.toUpperCase() : sAddr.substring(0, delim).toUpperCase();
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
+    }
+
+
+    private List<BLEProxyDeviceAdapter> getProxyAdapterCollection(){
+
+        ArrayList<BLEProxyDeviceAdapter> result = new ArrayList<>();
+        HashMap<String, BLEProxyDeviceAdapter> map = new HashMap<>();
+
+        for(BLEProxyDevice device : (ArrayList<BLEProxyDevice>)alldevices.clone()){
+            if(!map.containsKey(device.getMac())){
+                BLEProxyDeviceAdapter b = new BLEProxyDeviceAdapter();
+                map.put(device.getMac(), b);
+                result.add(b);
+            }
+            BLEProxyDeviceAdapter b = map.get(device.getMac());
+            b.addDevice(device);
+        }
+
+
+        return result;
+    }
 
 }
 

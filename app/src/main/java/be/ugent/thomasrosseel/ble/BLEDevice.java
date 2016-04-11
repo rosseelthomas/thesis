@@ -25,10 +25,17 @@ public class BLEDevice implements Device {
     private final BluetoothDevice device;
     private boolean connected;
     private BLECallback callback;
+    private String status="DISCOVERED";
 
     private boolean refresh_needed = true;
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     private BluetoothGatt connection;
 
@@ -57,41 +64,46 @@ public class BLEDevice implements Device {
     public boolean connect() {
         if(connected) return  false;
 
-                final CountDownLatch waiter = new CountDownLatch(1);
-
-                BLEEventListener connectionListener = new BLEEventListener() {
-                    @Override
-                    public void onEvent(Object data) {
-                        callback.removeConnectListener(this);
-                        if(refresh_needed){
-                            refreshDeviceCache(connection);
-                            refresh_needed = false;
-                        }
-
-                        waiter.countDown();
+        if(status.equals("DISOVERED")) {
 
 
+            final CountDownLatch waiter = new CountDownLatch(1);
+
+            BLEEventListener connectionListener = new BLEEventListener() {
+                @Override
+                public void onEvent(Object data) {
+                    callback.removeConnectListener(this);
+                    if (refresh_needed) {
+                        refreshDeviceCache(connection);
+                        refresh_needed = false;
                     }
-                };
-                callback.addConnectListener(connectionListener);
+
+                    waiter.countDown();
 
 
+                }
+            };
+            callback.addConnectListener(connectionListener);
 
-                connection = device.connectGatt(MyApplication.getAppContext(), false, callback);
+
+            connection = device.connectGatt(MyApplication.getAppContext(), false, callback);
 
 
-        try {
-            waiter.await(10, TimeUnit.SECONDS);
+            try {
+                waiter.await(10, TimeUnit.SECONDS);
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (waiter.getCount() > 0) return false;
+            Log.i("connect", "connected");
+            setStatus("CONNECTED");
+
+            connected = true;
+            return true;
+        }else{
+            return true;
         }
-        if(waiter.getCount()>0)return false;
-        Log.i("connect", "connected");
-
-
-        connected = true;
-        return true;
 
 
 
@@ -164,7 +176,7 @@ public class BLEDevice implements Device {
         }
         Log.i("connect", "disconnected");
 
-
+        setStatus("DISCOVERED");
         connected = false;
         return true;
 
