@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapResource;
 import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.CoapServer;
@@ -96,9 +97,11 @@ public class BleListActivity extends AppCompatActivity {
     private  boolean discovering;
     private ArrayList<String> macs;
     private ArrayList<BLEProxyDevice> alldevices;
-    private ArrayList<BLEProxyDevice> phydevices;
+    private ArrayList<BLEDevice> phydevices;
     private DeviceResource stateres;
     private String state = "ONLINE";
+
+
 
 
     CoapServer srv;
@@ -120,7 +123,7 @@ public class BleListActivity extends AppCompatActivity {
                 if(d.getTtl()<0){
                     alldevices.remove(d);
                     ListView l = (ListView) findViewById(R.id.list);
-                    final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                    final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -171,7 +174,7 @@ public class BleListActivity extends AppCompatActivity {
                         if(u.getHost().equals(host) && !u.getHost().equals(my_ip)){
                             d.setTtl(60);
                             ListView l = (ListView) findViewById(R.id.list);
-                            final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                            final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -196,6 +199,7 @@ public class BleListActivity extends AppCompatActivity {
         @Override
         public void run() {
             discoverCOAP();
+
 
         }
     };
@@ -229,13 +233,13 @@ public class BleListActivity extends AppCompatActivity {
                 //devices.add(result.getDevice());
 
 
-                final BLEDevice scanned_device = new BLEDevice(result.getDevice());
+                //final BLEDevice scanned_device = new BLEDevice(result.getDevice());
                 //arradapter.insert(scanned_device, arradapter.getCount());
 
 
 
                 if(getPHYDeviceByMAC(result.getDevice().getAddress()) == null){//else adapt ttl
-                    String devicename = scanned_device.getDevice().getName();
+                    String devicename = result.getDevice().getName();
                     String devicebase = devicename;
                     int suffix = 1;
                     while (containsResource(srv.getRoot().getChildren(), devicename)) {
@@ -248,13 +252,13 @@ public class BleListActivity extends AppCompatActivity {
 
                     BLEResource bler = (BLEResource) srv.getRoot().getChild("ble");
                     bler.addDevice(devicename);
-                    bler.addDevice(scanned_device.getDevice().getAddress());
+                    bler.addDevice(result.getDevice().getAddress());
 
-                    BLEProxyDevice bpd = new BLEProxyDevice(devicebase, scanned_device.getDevice().getAddress(), "coap://"+getIPAddress(true)+":5683/"+devicename, 10);
+                    BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/"+devicename, 10);
                     if(!alldevices.contains(bpd)){
                         alldevices.add(bpd);
                         ListView l = (ListView) findViewById(R.id.list);
-                        final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                        final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -265,10 +269,11 @@ public class BleListActivity extends AppCompatActivity {
                             }
                         });
                     }else{
-                        bpd = searchDevice(bpd.getMac(),bpd.getPath());
+                        bpd = getPHYDeviceByMAC(result.getDevice().getAddress());
                     }
                     if(!phydevices.contains(bpd)){
                         phydevices.add(bpd);
+
                     }
 
                     final DeviceResource t = new DeviceResource(devicename, devicename);
@@ -287,10 +292,11 @@ public class BleListActivity extends AppCompatActivity {
 
                     t.add(macResource);
                     DeviceResource statusResource = new DeviceResource("status", "status");
+                    final BLEDevice finalBpd = bpd;
                     statusResource.setRequestHandler(new RequestHandler() {
                         @Override
                         public void handleGET(CoapExchange ex) {
-                            ex.respond(scanned_device.getStatus());
+                            ex.respond(finalBpd.getStatus());
                         }
 
                         @Override
@@ -298,15 +304,23 @@ public class BleListActivity extends AppCompatActivity {
 
                         }
                     });
+                    statusResource.setObservable(true);
+                    statusResource.setObserveType(CoAP.Type.CON);
+                    statusResource.getAttributes().setObservable();
+
+                    finalBpd.setStatusresource(statusResource);
                     t.add(statusResource);
+
+
+
                     RequestHandler req = new RequestHandler() {
                         @Override
                         public void handleGET(final CoapExchange ex) {
                             ex.accept();
 
-                            scanned_device.connect();
-                            Collection<Service> services = scanned_device.discoverServices();
-                            scanned_device.disconnect();
+                            finalBpd.connect();
+                            Collection<Service> services = finalBpd.discoverServices();
+                            finalBpd.disconnect();
 
 
 
@@ -372,8 +386,8 @@ public class BleListActivity extends AppCompatActivity {
                                                 remote.addObserveRelation(relation);
                                                 ch.addObserveRelation(relation);
                                                 ex.advanced().setRelation(relation);
-                                                scanned_device.connect();
-                                                scanned_device.discoverServices();
+                                                finalBpd.connect();
+                                                finalBpd.discoverServices();
                                                 c.startNotify(new BLEEventListener() {
                                                     @Override
                                                     public void onEvent(Object data) {
@@ -383,12 +397,12 @@ public class BleListActivity extends AppCompatActivity {
                                                 });
                                             }else if(ex.getRequestOptions().getObserve()!=null && ex.getRequestOptions().getObserve() == 1){
                                                 c.stopNotify(null);
-                                                scanned_device.disconnect();
+                                                finalBpd.disconnect();
                                             }else{
-                                                scanned_device.connect();
-                                                scanned_device.discoverServices();
+                                                finalBpd.connect();
+                                                finalBpd.discoverServices();
                                                 ex.respond(CoAP.ResponseCode.CONTENT, c.read());
-                                                scanned_device.disconnect();
+                                                finalBpd.disconnect();
                                             }
 
 
@@ -397,10 +411,10 @@ public class BleListActivity extends AppCompatActivity {
                                         @Override
                                         public void handlePUT(CoapExchange ex) {
                                             ex.accept();
-                                            scanned_device.connect();
-                                            scanned_device.discoverServices();
+                                            finalBpd.connect();
+                                            finalBpd.discoverServices();
                                             c.write(ex.getRequestPayload());
-                                            scanned_device.disconnect();
+                                            finalBpd.disconnect();
 
 
                                         }
@@ -440,10 +454,10 @@ public class BleListActivity extends AppCompatActivity {
                         //macs.add(result.getDevice().getAddress());
                     }
                 }else{
-                    BLEProxyDevice searched = getPHYDeviceByMAC(result.getDevice().getAddress());
+                    BLEDevice searched = getPHYDeviceByMAC(result.getDevice().getAddress());
 
                     if(searched == null ){
-                        searched = searchDeviceByIP(result.getDevice().getAddress(), getIPAddress(true));
+                        searched = (BLEDevice) searchDeviceByIP(result.getDevice().getAddress(), getIPAddress(true));
                         phydevices.add(searched);
 
                     }
@@ -454,7 +468,7 @@ public class BleListActivity extends AppCompatActivity {
             }
 
             ListView l = (ListView) findViewById(R.id.list);
-            final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+            final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -473,8 +487,8 @@ public class BleListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ble_list);
 
         ListView l = (ListView) findViewById(R.id.list);
-        ArrayList<String> vals = new ArrayList<>();
-        ArrayAdapter<String> arradapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, vals);
+        ArrayList<BLEProxyDeviceAdapter> vals = new ArrayList<>();
+        ArrayAdapter<BLEProxyDeviceAdapter> arradapter = new ArrayAdapter<BLEProxyDeviceAdapter>(this, android.R.layout.simple_list_item_1, android.R.id.text1, vals);
 
         l.setAdapter(arradapter);
 
@@ -482,12 +496,18 @@ public class BleListActivity extends AppCompatActivity {
         l.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getBaseContext(), ServiceActivity.class);
+
+                ListView l = (ListView) findViewById(R.id.list);
+                ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
+                BLEProxyDeviceAdapter ad = arradapter.getItem(position);
+                ad.connect();
+
+                /*Intent intent = new Intent(getBaseContext(), ServiceActivity.class);
                 ListView l = (ListView) findViewById(R.id.list);
                 ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
                 intent.putExtra("resource", "DEVICE");
                 MyApplication.putResource("DEVICE", arradapter.getItem(position));
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 
@@ -583,7 +603,7 @@ public class BleListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ListView l = (ListView) findViewById(R.id.list);
-                final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -651,7 +671,7 @@ public class BleListActivity extends AppCompatActivity {
         BLEScan();*/
 
         ListView l = (ListView) findViewById(R.id.list);
-        final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+        final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -700,6 +720,9 @@ public class BleListActivity extends AppCompatActivity {
         if (multicastLock != null)
             multicastLock.release();
 
+        mScanning = false;
+        mLEScanner.stopScan(mScanCallback);
+        Log.i("ble-scan", "scan stopped");
 
     }
 
@@ -718,7 +741,7 @@ public class BleListActivity extends AppCompatActivity {
 
         devices.clear();
         ListView l = (ListView) findViewById(R.id.list);
-        ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+        ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
         arradapter.clear();
         BLEScan();
       //  discoverCOAP();
@@ -835,7 +858,7 @@ public class BleListActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     ListView l = (ListView) findViewById(R.id.list);
-                                    final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                                    final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                                     // arradapter.add(new COAPDevice());
 
 
@@ -919,7 +942,7 @@ public class BleListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ListView l = (ListView) findViewById(R.id.list);
-                final ArrayAdapter<String> arradapter = (ArrayAdapter<String>) l.getAdapter();
+                final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
 
                 try {
 
@@ -990,6 +1013,7 @@ public class BleListActivity extends AppCompatActivity {
 
                                         alldevices.add(dev);
                                     }
+
                                 }else if(!phydevices.contains(dev)){
 
                                     URI u = URI.create(dev.getPath());
@@ -1028,6 +1052,18 @@ public class BleListActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                //check if we have to observe some resources
+                for(BLEProxyDeviceAdapter adapter : getProxyAdapterCollection()){
+                    if(adapter.isPhysical()){
+                        for(BLEProxyDevice b : adapter.getAllDevices()){
+                            if(b instanceof COAPDevice){
+                                COAPDevice coap = (COAPDevice) b;
+                                coap.observe(adapter);
+                            }
+                        }
+                    }
+                }
+
             }
 
         }.run();
@@ -1056,10 +1092,10 @@ public class BleListActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<String> getDiscoveredDevices(){
-        ArrayList<String> ds = new ArrayList<>();
-        for(BLEProxyDevice d : alldevices){
-            ds.add(d.toString());
+    private ArrayList<BLEProxyDeviceAdapter> getDiscoveredDevices(){
+        ArrayList<BLEProxyDeviceAdapter> ds = new ArrayList<>();
+        for(BLEProxyDeviceAdapter d : getProxyAdapterCollection()){
+            ds.add(d);
         }
         return ds;
     }
@@ -1085,8 +1121,8 @@ public class BleListActivity extends AppCompatActivity {
 
 
 
-    private BLEProxyDevice getPHYDeviceByMAC(String mac){
-        for(BLEProxyDevice d : phydevices){
+    private BLEDevice getPHYDeviceByMAC(String mac){
+        for(BLEDevice d : phydevices){
             if(d.getMac().equals(mac)) return d;
         }
         return null;

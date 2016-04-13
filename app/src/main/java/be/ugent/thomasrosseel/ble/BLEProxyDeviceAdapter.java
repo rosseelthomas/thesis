@@ -1,14 +1,19 @@
 package be.ugent.thomasrosseel.ble;
 
+import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapResponse;
+
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by thomasrosseel on 11/04/16.
  */
-public class BLEProxyDeviceAdapter {
+public class BLEProxyDeviceAdapter implements CoapHandler{
 
     private ArrayList<BLEProxyDevice> devices;
+
 
     public BLEProxyDeviceAdapter() {
         devices = new ArrayList<>();
@@ -36,10 +41,71 @@ public class BLEProxyDeviceAdapter {
         return "";
     }
 
+    public boolean isPhysical(){
+        for(BLEProxyDevice b : (ArrayList<BLEProxyDevice>)devices.clone()){
+            if(b instanceof BLEDevice) return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
 
-        return getName()+"\n"+getMac()+"\n via "+devices.size()+" apparaten";
+
+        String st = "\n"+getAllDevices().get(0).getStatus();
+
+        for(BLEProxyDevice d : getAllDevices()){
+            if(d.getStatus().startsWith("PROXY")){
+                st = "\n"+d.getStatus();
+            }
+        }
+
+        return getName()+"\n"+getMac()+"\n via "+devices.size()+(devices.size() == 1 ? " apparaat" : " apparaten")+st;
+
+    }
+    //TODO: ADAPT THIS, TESTING PURPOSES ONLY
+    public void connect(){
+        for(BLEProxyDevice b : (ArrayList<BLEProxyDevice>)devices.clone()){
+            if(b instanceof BLEDevice) {
+                if(!((BLEDevice) b).isConnected()){
+                    b.connect();
+                }else{
+                    b.disconnect();
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public void onLoad(CoapResponse response) {
+        for(BLEProxyDevice device : getAllDevices()){
+            URI uri = URI.create(device.getPath());
+
+                if(response.getResponseText().startsWith("CONNECT")){
+                    if(!uri.getHost().equals(response.advanced().getSource().getHostAddress())){
+                        device.setStatus("PROXY;"+response.advanced().getSource().getHostAddress());
+                    }else {
+                        device.setStatus("CONNECTED");
+                    }
+
+                }else if(response.getResponseText().startsWith("DISCOV")){
+
+                    if(device.getStatus().equals("PROXY;"+response.advanced().getSource().getHostAddress())){
+                        device.setStatus("DISCOVERED");
+                    }else if(uri.getHost().equals(response.advanced().getSource().getHostAddress())){
+                        device.setStatus("DISCOVERED");
+                    }
+
+                }
+
+
+
+        }
+    }
+
+    @Override
+    public void onError() {
 
     }
 }

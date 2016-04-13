@@ -33,7 +33,7 @@ public class BleProxyParser {
             }
             i++;
             int ttl = Integer.parseInt(splitted[i]);
-            BLEProxyDevice dev = new BLEProxyDevice(naam,mac,p.toString(),ttl);
+            BLEProxyDevice dev = new COAPDevice(p.getHost(),p.getPort(),p.getPath().substring(1),naam,mac,ttl);
             parsed.add(dev);
 
 

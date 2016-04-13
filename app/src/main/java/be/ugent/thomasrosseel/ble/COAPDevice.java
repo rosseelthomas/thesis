@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.eclipse.californium.core.CoapClient;
+import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapResponse;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.Collection;
 /**
  * Created by thomasrosseel on 3/03/16.
  */
-public class COAPDevice implements Device {
+public class COAPDevice extends BLEProxyDevice {
 
     private CoapClient client;
     private String host;
@@ -26,7 +27,12 @@ public class COAPDevice implements Device {
         client = new CoapClient("coap",host,port,path);
         client.get();
 
+        return true;
+    }
 
+    public boolean observe(CoapHandler handler){
+        client = new CoapClient("coap",host,port,path+"/status");
+        client.observe(handler);
 
         return true;
     }
@@ -67,7 +73,8 @@ public class COAPDevice implements Device {
         return true;
     }
 
-    public COAPDevice(String h, int p, String pa, String name){
+    public COAPDevice(String h, int p, String pa, String name, String mac, int ttl){
+        super(name,mac,"coap://"+h+":"+p+"/"+pa,ttl);
         host = h;
         port = p;
         path = pa;

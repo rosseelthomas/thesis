@@ -3,11 +3,17 @@ package be.ugent.thomasrosseel.ble;
 /**
  * Created by thomasrosseel on 5/04/16.
  */
-public class BLEProxyDevice {
+public abstract class BLEProxyDevice implements Device {
 
-    private String naam, mac, path;
+    private String naam, mac, path,status="DISCOVERED";
     private long millis_end;
 
+
+    private DeviceResource statusresource;
+
+    public void setStatusresource(DeviceResource statusresource) {
+        this.statusresource = statusresource;
+    }
 
     public String getNaam() {
         return naam;
@@ -41,6 +47,21 @@ public class BLEProxyDevice {
     public void setTtl(int ttl) {
 
         millis_end = System.currentTimeMillis() + ttl*1000;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+
+    }
+
+    public void notifyStatus() {
+        if(statusresource!=null){
+            statusresource.changed();
+        }
     }
 
     public BLEProxyDevice(String naam, String mac, String path, int ttl) {

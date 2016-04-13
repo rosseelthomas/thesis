@@ -14,28 +14,24 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by thomasrosseel on 3/03/16.
  */
-public class BLEDevice implements Device {
+public class BLEDevice extends BLEProxyDevice {
 
     private final BluetoothDevice device;
     private boolean connected;
     private BLECallback callback;
-    private String status="DISCOVERED";
+
 
     private boolean refresh_needed = true;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    private Timer ttl_timer;
 
     private BluetoothGatt connection;
 
@@ -43,11 +39,12 @@ public class BLEDevice implements Device {
         return connection;
     }
 
-    public BLEDevice(BluetoothDevice device) {
-
+    public BLEDevice(BluetoothDevice device, String path, int ttl) {
+        super(device.getName(), device.getAddress(), path, ttl);
         this.device = device;
         callback = new BLECallback();
         connected = false;
+
     }
 
     public BluetoothDevice getDevice() {
@@ -64,7 +61,7 @@ public class BLEDevice implements Device {
     public boolean connect() {
         if(connected) return  false;
 
-        if(status.equals("DISOVERED")) {
+        if(getStatus().equals("DISCOVERED")) {
 
 
             final CountDownLatch waiter = new CountDownLatch(1);
@@ -98,8 +95,18 @@ public class BLEDevice implements Device {
             if (waiter.getCount() > 0) return false;
             Log.i("connect", "connected");
             setStatus("CONNECTED");
+            notifyStatus();
 
             connected = true;
+            ttl_timer = new Timer();
+            TimerTask ttl_timer_task = new TimerTask() {
+                @Override
+                public void run() {
+                    setTtl(60);
+                }
+            };
+            ttl_timer.schedule(ttl_timer_task, 0, 5000);
+
             return true;
         }else{
             return true;
@@ -177,7 +184,10 @@ public class BLEDevice implements Device {
         Log.i("connect", "disconnected");
 
         setStatus("DISCOVERED");
+        notifyStatus();
         connected = false;
+        if(ttl_timer!=null)
+            ttl_timer.cancel();
         return true;
 
 
