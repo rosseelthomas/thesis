@@ -9,6 +9,7 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 public class DeviceResource extends CoapResource {
 
     private RequestHandler requestHandler;
+    private boolean exposed = false;
 
     public DeviceResource(String id, String name){
         super(id);
@@ -18,6 +19,14 @@ public class DeviceResource extends CoapResource {
     public void setRequestHandler(RequestHandler handler){
         requestHandler = handler;
 
+    }
+
+    public void expose(){
+        exposed = true;
+    }
+
+    public boolean isExposed(){
+        return exposed;
     }
 
     @Override

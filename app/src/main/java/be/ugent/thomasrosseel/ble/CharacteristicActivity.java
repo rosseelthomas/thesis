@@ -43,8 +43,11 @@ public class CharacteristicActivity extends AppCompatActivity {
         if (extras != null) {
             String res =(String) extras.get("resource");
             service = (Service) MyApplication.getResource(res);
-            Collection<Characteristic> characteristics = service.discoverCharacteristics();
-            adapter.addAll(characteristics);
+            if(service!=null){
+                Collection<Characteristic> characteristics = service.discoverCharacteristics();
+                adapter.addAll(characteristics);
+            }
+
 
         }
         v.setAdapter(adapter);

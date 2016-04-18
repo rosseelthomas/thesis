@@ -8,4 +8,5 @@
     <string name="title_activity_service">Browse Services</string>
     <string name="title_activity_characteristic">Browsing Characteristics</string>
     <string name="title_activity_data">I/O</string>
+    <string name="title_activity_device">DeviceActivity</string>
 </resources>

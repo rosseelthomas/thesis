@@ -1,5 +1,10 @@
 package be.ugent.thomasrosseel.ble;
 
+import org.eclipse.californium.core.CoapHandler;
+import org.eclipse.californium.core.CoapResponse;
+
+import java.net.URI;
+
 /**
  * Created by thomasrosseel on 5/04/16.
  */
@@ -77,7 +82,7 @@ public abstract class BLEProxyDevice implements Device {
 
     @Override
     public String toString() {
-        return naam+"\n"+mac+"\n"+path+"\n"+getTtl();
+        return naam+"\n"+mac+"\n"+path+"\n"+getTtl()+"\n"+getStatus();
     }
 
     @Override
@@ -100,4 +105,6 @@ public abstract class BLEProxyDevice implements Device {
         result = 31 * result + path.hashCode();
         return result;
     }
+
+
 }

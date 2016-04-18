@@ -15,6 +15,7 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
     private ArrayList<BLEProxyDevice> devices;
 
 
+
     public BLEProxyDeviceAdapter() {
         devices = new ArrayList<>();
     }
@@ -50,12 +51,16 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
 
     @Override
     public String toString() {
+        String st="";
+        if(devices.size()>0){
+            st = "\n"+getAllDevices().get(0).getStatus();
+        }
 
-
-        String st = "\n"+getAllDevices().get(0).getStatus();
 
         for(BLEProxyDevice d : getAllDevices()){
             if(d.getStatus().startsWith("PROXY")){
+                st = "\n"+d.getStatus();
+            }else if(d.getStatus().startsWith("CONNECT") && d instanceof BLEDevice){
                 st = "\n"+d.getStatus();
             }
         }
@@ -69,6 +74,9 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
             if(b instanceof BLEDevice) {
                 if(!((BLEDevice) b).isConnected()){
                     b.connect();
+
+
+
                 }else{
                     b.disconnect();
                 }
@@ -79,12 +87,17 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
 
     @Override
     public void onLoad(CoapResponse response) {
+
         for(BLEProxyDevice device : getAllDevices()){
             URI uri = URI.create(device.getPath());
 
+            if(device instanceof BLEDevice){
                 if(response.getResponseText().startsWith("CONNECT")){
                     if(!uri.getHost().equals(response.advanced().getSource().getHostAddress())){
-                        device.setStatus("PROXY;"+response.advanced().getSource().getHostAddress());
+                        device.setStatus("PROXY;" + response.advanced().getSource().getHostAddress());
+                        ((BLEDevice)device).setProxy_ip(response.advanced().getSource().getHostAddress());
+                        device.setTtl(120);
+                        ((BLEDevice) device).setProxyTtl(120);
                     }else {
                         device.setStatus("CONNECTED");
                     }
@@ -93,19 +106,47 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
 
                     if(device.getStatus().equals("PROXY;"+response.advanced().getSource().getHostAddress())){
                         device.setStatus("DISCOVERED");
+                        ((BLEDevice)device).setProxy_ip("");
                     }else if(uri.getHost().equals(response.advanced().getSource().getHostAddress())){
                         device.setStatus("DISCOVERED");
                     }
 
                 }
-
+            }
 
 
         }
+
+
+
     }
 
     @Override
     public void onError() {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BLEProxyDeviceAdapter that = (BLEProxyDeviceAdapter) o;
+
+        return getMac().equals(that.getMac());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getMac().hashCode();
+    }
+
+    public void observeAll(){
+        for(BLEProxyDevice d : getAllDevices()){
+            if(d instanceof  COAPDevice){
+                ((COAPDevice) d).observe(this);
+            }
+        }
     }
 }

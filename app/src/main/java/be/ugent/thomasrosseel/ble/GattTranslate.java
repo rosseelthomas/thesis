@@ -25,7 +25,7 @@ public class GattTranslate {
 
     private GattTranslate(){
 
-
+        context = MyApplication.getAppContext();
 
         gattMap = new HashMap<>();
         BufferedReader reader = null;

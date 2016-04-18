@@ -56,6 +56,9 @@ public final class OptionNumberRegistry {
 	public static final int BLOCK1			= 27;
 	public static final int SIZE2			= 28;
 
+	// redirect option
+    public static final int REDIRECT        = 3869;
+
 	/**
 	 * Option names.
 	 */
@@ -83,6 +86,8 @@ public final class OptionNumberRegistry {
 		public static final String Block2			= "Block2";
 		public static final String Block1			= "Block1";
 		public static final String Size2			= "Size2";
+
+        public static final String Redirect         = "Redirect";
 	}
 	
 	/**
@@ -128,6 +133,7 @@ public final class OptionNumberRegistry {
 		case LOCATION_QUERY:
 		case PROXY_URI:
 		case PROXY_SCHEME:
+        case REDIRECT:
 			return optionFormats.STRING;
 		case ETAG:
 		case IF_MATCH:
@@ -328,6 +334,7 @@ public final class OptionNumberRegistry {
 		else if (Names.Block1.equals(name))		return BLOCK1;
 		else if (Names.Size2.equals(name))			return SIZE2;
 		else if (Names.Size1.equals(name))			return SIZE1;
+        else if (Names.Redirect.equals(name))       return REDIRECT;
 		else return UNKNOWN;
 	}
 

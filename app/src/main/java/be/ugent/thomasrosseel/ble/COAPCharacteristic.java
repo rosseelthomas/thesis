@@ -24,9 +24,14 @@ public class COAPCharacteristic implements Characteristic {
         CoapClient c = new CoapClient(path);
 
 
+        CoapResponse r = c.get();
+        if(r!=null){
+            return r.getPayload();
+        }else{
+            return new byte[0];
+        }
 
-        byte[] bytes =  c.get().getPayload();
-        return bytes;
+
     }
 
     @Override

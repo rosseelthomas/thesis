@@ -46,18 +46,18 @@ public class ServiceActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             String res =(String) extras.get("resource");
-            device = (Device) MyApplication.getResource(res);
+            device = (BLEProxyDevice) MyApplication.getResource(res);
 
-            if(!device.connect()){
+            /*if(!device.connect()){
                 device.disconnect();
 
                 finish();
                 Log.i("service","connection failed");
                 return;
 
-            }
+            }*/
             adapter.addAll(device.discoverServices());
-            device.disconnect();
+            //device.disconnect();
 
 
         }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Collection;
@@ -81,7 +82,7 @@ public class DataActivity extends AppCompatActivity {
 
     public void handlePOST(View v){
         byte[] bytes = new byte[1];
-        bytes[0] = 1;
+        bytes[0] = (byte)Integer.parseInt(((EditText)findViewById(R.id.editText)).getText().toString());
 
         characteristic.write(bytes);
     }

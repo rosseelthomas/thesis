@@ -53,7 +53,7 @@ public class BLECharacteristic implements Characteristic {
         getService().getDevice().getCallback().addReadListener(l);
 
 
-                getService().getDevice().connect();
+                //getService().getDevice().connect();
                 getService().getDevice().discoverServices();
                 BluetoothGatt gatt = getService().getDevice().getConnection();
                 Boolean b = gatt.readCharacteristic(characteristic);
@@ -64,7 +64,7 @@ public class BLECharacteristic implements Characteristic {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        getService().getDevice().disconnect();
+        //getService().getDevice().disconnect();
         if(waiter.getCount()>0) return null;
         return characteristic.getValue();
 
@@ -89,13 +89,12 @@ public class BLECharacteristic implements Characteristic {
         getService().getDevice().getCallback().addWriteListener(l);
 
 
-        byte [] b = new byte[1];
-        b[0] = (byte)255;
 
-        getService().getDevice().connect();
+
+        //getService().getDevice().connect();
         BluetoothGatt gatt = getService().getDevice().getConnection();
         getService().getDevice().discoverServices();
-        characteristic.setValue(b);
+        characteristic.setValue(bytes);
         gatt.writeCharacteristic(characteristic);
 
 
@@ -104,7 +103,7 @@ public class BLECharacteristic implements Characteristic {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        getService().getDevice().disconnect();
+       // getService().getDevice().disconnect();
     }
 
 
@@ -119,7 +118,7 @@ public class BLECharacteristic implements Characteristic {
         };
 
 
-        getService().getDevice().connect();
+        //getService().getDevice().connect();
         getService().getDevice().discoverServices();
         BluetoothGatt gatt = getService().getDevice().getConnection();
         Boolean b = gatt.setCharacteristicNotification(characteristic, true);
@@ -137,7 +136,7 @@ public class BLECharacteristic implements Characteristic {
         BluetoothGatt gatt = getService().getDevice().getConnection();
         Boolean b = gatt.setCharacteristicNotification(characteristic, false);
         getService().getDevice().getCallback().removeChangeListener(notifylistener);
-        getService().getDevice().disconnect();
+        //getService().getDevice().disconnect();
     }
 
     @Override

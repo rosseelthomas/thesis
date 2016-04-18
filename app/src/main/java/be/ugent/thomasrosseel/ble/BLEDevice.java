@@ -5,7 +5,9 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.content.Context;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
@@ -27,6 +30,9 @@ public class BLEDevice extends BLEProxyDevice {
     private final BluetoothDevice device;
     private boolean connected;
     private BLECallback callback;
+    private String proxy_ip;
+    private long proxy_millis;
+
 
 
     private boolean refresh_needed = true;
@@ -39,12 +45,67 @@ public class BLEDevice extends BLEProxyDevice {
         return connection;
     }
 
+    public int getProxyTtl() {
+
+        return (int)(proxy_millis - System.currentTimeMillis())/1000;
+    }
+
+    public void setProxyTtl(int ttl) {
+
+        proxy_millis = System.currentTimeMillis() + ttl*1000;
+    }
+
     public BLEDevice(BluetoothDevice device, String path, int ttl) {
         super(device.getName(), device.getAddress(), path, ttl);
         this.device = device;
         callback = new BLECallback();
         connected = false;
 
+        BLEEventListener disconnectionListener = new BLEEventListener() {
+            @Override
+            public void onEvent(Object data) {
+                setStatus("DISCOVERED");
+                connected=false;
+                if(ttl_timer!=null)
+                    ttl_timer.cancel();
+                notifyStatus();
+
+            }
+        };
+        callback.addDisconnectListener(disconnectionListener);
+
+        BLEEventListener connectionListener = new BLEEventListener() {
+            @Override
+            public void onEvent(Object data) {
+
+                setStatus("CONNECTED");
+                BLEDevice.this.setStatus("CONNECTED");
+                notifyStatus();
+
+
+
+                connected = true;
+                ttl_timer = new Timer();
+                TimerTask ttl_timer_task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        setTtl(120);
+                    }
+                };
+                ttl_timer.schedule(ttl_timer_task, 0, 5000);
+
+            }
+        };
+        callback.addConnectListener(connectionListener);
+
+    }
+
+    public String getProxy_ip() {
+        return proxy_ip;
+    }
+
+    public void setProxy_ip(String proxy_ip) {
+        this.proxy_ip = proxy_ip;
     }
 
     public BluetoothDevice getDevice() {
@@ -94,18 +155,7 @@ public class BLEDevice extends BLEProxyDevice {
             }
             if (waiter.getCount() > 0) return false;
             Log.i("connect", "connected");
-            setStatus("CONNECTED");
-            notifyStatus();
 
-            connected = true;
-            ttl_timer = new Timer();
-            TimerTask ttl_timer_task = new TimerTask() {
-                @Override
-                public void run() {
-                    setTtl(60);
-                }
-            };
-            ttl_timer.schedule(ttl_timer_task, 0, 5000);
 
             return true;
         }else{
@@ -119,35 +169,48 @@ public class BLEDevice extends BLEProxyDevice {
     @Override
     public Collection<Service> discoverServices() {
 
-        final CountDownLatch waiter = new CountDownLatch(1);
-        final Collection<BLEService> services = new ArrayList<>();
+        if(!connected){
+
+            connect();
+
+
+        }
+
+
+
         final Collection<Service> returnservices = new ArrayList<>();
+        if(connected){
+            final CountDownLatch waiter = new CountDownLatch(1);
+            final Collection<BLEService> services = new ArrayList<>();
 
 
-        BLEEventListener discoveryListener = new BLEEventListener() {
-            @Override
-            public void onEvent(Object o) {
-                callback.removeDiscoveryListener(this);
-                final Collection<BLEService> collection = (Collection<BLEService>)o;
-                for(BLEService s : collection){
+            BLEEventListener discoveryListener = new BLEEventListener() {
+                @Override
+                public void onEvent(Object o) {
+                    callback.removeDiscoveryListener(this);
+                    final Collection<BLEService> collection = (Collection<BLEService>)o;
+                    for(BLEService s : collection){
 
-                    s.setDevice(BLEDevice.this);
-                    services.add(s);
+                        s.setDevice(BLEDevice.this);
+                        services.add(s);
+
+                    }
+                    waiter.countDown();
+
 
                 }
-                waiter.countDown();
-
-
+            };
+            callback.addDiscoveryListener(discoveryListener);
+            connection.discoverServices();
+            try {
+                waiter.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
-        callback.addDiscoveryListener(discoveryListener);
-        connection.discoverServices();
-        try {
-            waiter.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            returnservices.addAll(services);
         }
-        returnservices.addAll(services);
+
+
         return returnservices;
 
 
@@ -194,10 +257,7 @@ public class BLEDevice extends BLEProxyDevice {
 
     }
 
-    @Override
-    public String toString() {
-        return device.getName()+"\n"+device.getAddress();
-    }
+
 
     public BLECallback getCallback() {
         return callback;
@@ -216,5 +276,10 @@ public class BLEDevice extends BLEProxyDevice {
             Log.e("refresh", "An exception occured while refreshing device");
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+"\nPHYSICAL";
     }
 }

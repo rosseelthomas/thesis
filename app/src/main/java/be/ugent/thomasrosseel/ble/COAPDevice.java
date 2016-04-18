@@ -7,9 +7,12 @@ import android.widget.ListView;
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapHandler;
 import org.eclipse.californium.core.CoapResponse;
+import org.eclipse.californium.core.coap.Option;
+import org.eclipse.californium.core.coap.OptionNumberRegistry;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by thomasrosseel on 3/03/16.
@@ -40,17 +43,28 @@ public class COAPDevice extends BLEProxyDevice {
     @Override
     public Collection<Service> discoverServices() {
         ArrayList<Service> services = new ArrayList<>();
-        client.get();
-        CoapClient well_known_browser = new CoapClient("coap",host,port,".well-known/core");
-        CoapResponse response = well_known_browser.get();
-        String txt = response.getResponseText();
 
-        ParseResult p = COAPParser.parse(txt);
-        Log.i("parsed", "parsed");
-        p = p.getChild(path);
-        String base = "coap://"+host+":"+port+"/"+path;
-        for ( ParseResult child : p.getChildren()) {
-            if(!child.getId().equals("mac")){
+        CoapClient resource_browser = new CoapClient("coap",host,port,path);
+        CoapResponse response = resource_browser.get();
+        if(response!=null){
+            String ip = host;
+            if(response.getOptions().hasOption(OptionNumberRegistry.REDIRECT)){
+                List<Option> options = response.getOptions().asSortedList();
+                for(Option o :options){
+                    if(o.getNumber()==OptionNumberRegistry.REDIRECT){
+                        ip = o.getStringValue();
+                    }
+                }
+                resource_browser = new CoapClient("coap",ip,port,path);
+                response = resource_browser.get();
+            }
+
+            String txt = response.getResponseText();
+
+            ParseResult p = COAPParser.parseDevice(txt);
+            String base = "coap://"+ip+":"+port+"/"+path;
+            for ( ParseResult child : p.getChildren()) {
+
                 COAPService s = new COAPService(child.getTitle(),base+"/"+child.getId());
 
 
@@ -61,9 +75,12 @@ public class COAPDevice extends BLEProxyDevice {
 
                 services.add(s);
 
-            }
 
+
+            }
         }
+
+
         return services;
     }
 
@@ -79,10 +96,8 @@ public class COAPDevice extends BLEProxyDevice {
         port = p;
         path = pa;
         this.name = name;
+        setStatus("ONLINE");
     }
 
-    @Override
-    public String toString() {
-        return name+"\n"+" via: "+host+":"+port;
-    }
+
 }

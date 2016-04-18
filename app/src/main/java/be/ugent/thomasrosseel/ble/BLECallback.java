@@ -33,6 +33,7 @@ public class BLECallback extends BluetoothGattCallback {
 
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
         String intentAction;
+        Log.i("gatt",newState+"");
         if (newState == BluetoothProfile.STATE_CONNECTED) {
 
             Log.i("gatt", "Connected to GATT server.");
@@ -193,6 +194,8 @@ public class BLECallback extends BluetoothGattCallback {
     public void removeWriteListener(BLEEventListener l){
         onwrite.remove(l);
     }
+
+
 }
 
 
