@@ -61,6 +61,7 @@ public class BLECallback extends BluetoothGattCallback {
                     }
                 }
             }.run();
+            gatt.close();
 
 
         }

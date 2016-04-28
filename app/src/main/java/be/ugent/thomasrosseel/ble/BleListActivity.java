@@ -17,6 +17,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiEnterpriseConfig;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.StrictMode;
@@ -56,7 +59,9 @@ import org.eclipse.californium.core.observe.ObservingEndpoint;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 import org.eclipse.californium.core.server.resources.Resource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -73,6 +78,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Timer;
@@ -104,6 +110,7 @@ public class BleListActivity extends AppCompatActivity {
     private DeviceResource stateres;
     private String state = "ONLINE";
     private DeviceResource bleproxy;
+    private DeviceResource bleres;
 
     private List<String> observing_ips;
     private HashMap<String, BLEProxyDeviceAdapter> proxyAdapterMap;
@@ -251,8 +258,8 @@ public class BleListActivity extends AppCompatActivity {
 
         @Override
         public void onScanFailed(int errorCode) {
-            Log.d("ble","scan failed");
-            BLEScan();
+            Log.d("ble", "scan failed : " + errorCode);
+            //BLEScan();
         }
 
         @Override
@@ -296,11 +303,11 @@ public class BleListActivity extends AppCompatActivity {
                     devicebase  = devicebase.replaceAll(";","\\\\;");
 
 
-                    BLEResource bler = (BLEResource) srv.getRoot().getChild("ble");
+                    /*BLEResource bler = (BLEResource) srv.getRoot().getChild("ble");
                     bler.addDevice(devicename);
-                    bler.addDevice(result.getDevice().getAddress());
+                    bler.addDevice(result.getDevice().getAddress());*/
 
-                    BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/"+devicename, 120);
+                    BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/ble/"+devicename, 120);
                     if(!alldevices.contains(bpd)){
                         alldevices.add(bpd);
                         bleproxy.changed();
@@ -479,9 +486,9 @@ public class BleListActivity extends AppCompatActivity {
                         }
                     };
                     t.setRequestHandler(req);
-                    if (!containsResource(srv.getRoot().getChildren(), t.getName())) {
+                    if (!containsResource(bleres.getChildren(), t.getName())) {
 
-                        srv.add(t);
+                        bleres.add(t);
                         //srv.getRoot().getChild("macs").add(new DeviceResource(result.getDevice().getAddress(),result.getDevice().getAddress()));
 
                         //broadcast that we discovered a new ble device, broadcast devicebase, mac address and path
@@ -566,6 +573,7 @@ public class BleListActivity extends AppCompatActivity {
 
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+
         adapter = bluetoothManager.getAdapter();
         if (adapter == null || !adapter.isEnabled()) {
            ble_active=false;
@@ -577,13 +585,20 @@ public class BleListActivity extends AppCompatActivity {
                     .build();
             filters = new ArrayList<ScanFilter>();
             setTitle("BLE-CoAP "+getIPAddress(true));
+
+
+            for(BluetoothDevice bld : bluetoothManager.getConnectedDevices(BluetoothProfile.GATT)){
+                Log.i("bld",bld.toString());
+            }
+
+
         }
 
 
         observing_ips = new ArrayList<>();
         srv = new CoapServer();
-        Resource bleres = new BLEResource("ble");
-        srv.add(bleres);
+        bleres = new DeviceResource("ble","ble");
+        srv.getRoot().add(bleres);
          bleproxy = new DeviceResource("ble-proxy","ble-proxy");
         bleproxy.setRequestHandler(new RequestHandler() {
             @Override
@@ -591,8 +606,9 @@ public class BleListActivity extends AppCompatActivity {
                 String s = "";
                 for (BLEProxyDevice d : alldevices) {
                     s += d.toResource();
+                    s+=",";
                 }
-                ex.respond(s);
+                ex.respond(s.substring(0, s.length()-1));
 
                 if (!observing_ips.contains(ex.getSourceAddress().getHostAddress())) {
                     //start observe
@@ -633,7 +649,7 @@ public class BleListActivity extends AppCompatActivity {
         bleproxy_.setObservable(true);
         bleproxy_.getAttributes().setObservable();
 
-        srv.add(bleproxy_);
+        //srv.add(bleproxy_);
 
 
 
@@ -653,7 +669,7 @@ public class BleListActivity extends AppCompatActivity {
         });
         stateres.setObservable(true);
 
-        srv.add(stateres);
+        //srv.add(stateres);
 
 
 
@@ -670,6 +686,7 @@ public class BleListActivity extends AppCompatActivity {
 
 
         srv.start();
+
         macs = new ArrayList<>();
         alldevices = new ArrayList<>();
         phydevices = new ArrayList<>();
@@ -696,10 +713,33 @@ public class BleListActivity extends AppCompatActivity {
                     }
                 });
 
-                bleproxy_.changed();
-            }
-        },0,1000);
 
+            }
+        }, 0, 1000);
+
+
+        try {
+            Process p = Runtime.getRuntime().exec("ifconfig wifi:0 10.20.30.40 up");
+
+            p.waitFor();
+            String resp = readFully(p.getInputStream());
+            Log.i("command-exec",resp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String readFully(InputStream is) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length = 0;
+        while ((length = is.read(buffer)) != -1) {
+            baos.write(buffer, 0, length);
+        }
+        return baos.toString("UTF-8");
     }
 
     @Override
@@ -729,22 +769,16 @@ public class BleListActivity extends AppCompatActivity {
         Log.i("ble-log", "BLE SEARCHING....");
 
 
-
-        // Stops scanning after a pre-defined scan period.
-        /*mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mScanning = false;
-                mLEScanner.stopScan(mScanCallback);
-                Log.i("ble-scan", "scan stopped");
-                BLEScan();
-            }
-        }, SCAN_PERIOD);*/
-
         mScanning = true;
-        mLEScanner.startScan(filters, settings, mScanCallback);
-
+        mLEScanner.startScan( filters, settings, mScanCallback);
         Log.i("ble-scan", "scan started");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLEScanner.stopScan(mScanCallback);
+        Log.i("ble-scan","scan stopped");
     }
 
     public void refresh_click(View v) {
@@ -780,7 +814,7 @@ public class BleListActivity extends AppCompatActivity {
 
         }
 */
-       // discoverCOAP();
+        discoverCOAP();
 
 
     }
@@ -1211,7 +1245,7 @@ public class BleListActivity extends AppCompatActivity {
 
 
     private BLEProxyDevice getPHYDeviceByMAC(String mac){
-        for(BLEProxyDevice d : alldevices){
+        for(BLEProxyDevice d : (ArrayList<BLEProxyDevice>)alldevices.clone()){
             URI u = URI.create(d.getPath());
             if(d.getMac().equals(mac) && u.getHost().equals(getIPAddress(true))) return d;
         }
@@ -1271,13 +1305,13 @@ public class BleListActivity extends AppCompatActivity {
 
 
         }
-
-        for(String mac : proxyAdapterMap.keySet()){
+        Iterator<String> it = proxyAdapterMap.keySet().iterator();
+        while(it.hasNext()){
+            String mac = it.next();
             if(proxyAdapterMap.get(mac).getAllDevices().isEmpty()){
                 proxyAdapterMap.remove(mac);
             }
         }
-
 
         return proxyAdapterMap.values();
     }

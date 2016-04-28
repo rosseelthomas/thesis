@@ -10,35 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d9e208c0-2fe7-4e52-911e-20fd95598613" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceActivity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_device.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_device.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECharacteristic.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECharacteristic.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEService.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPCharacteristic.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPCharacteristic.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPParser.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/CharacteristicActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/CharacteristicActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DataActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DataActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceResource.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceResource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/GattTranslate.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/GattTranslate.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/coap/OptionNumberRegistry.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/coap/OptionNumberRegistry.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_data.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_data.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BLE.iws" />
@@ -67,114 +48,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BleListActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BleListActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="681" column="20" selection-start-line="681" selection-start-column="8" selection-end-line="681" selection-end-column="20" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#12730#12731#0" expanded="true" />
-                <element signature="e#12818#12819#0" expanded="true" />
-                <element signature="e#24466#24467#0" expanded="true" />
-                <element signature="e#24515#24516#0" expanded="true" />
-                <element signature="e#48945#48946#0" expanded="true" />
-                <element signature="e#49001#49002#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="8" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GattTranslate.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/GattTranslate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="27" column="48" selection-start-line="27" selection-start-column="48" selection-end-line="27" selection-end-column="48" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="31" column="28" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CharacteristicActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/CharacteristicActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="23" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BLEDevice.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="OptionNumberRegistry.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/coap/OptionNumberRegistry.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3206651">
-              <caret line="50" column="33" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="COAPDevice.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="COAPCharacteristic.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPCharacteristic.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
-              <folding>
-                <element signature="e#880#881#0" expanded="true" />
-                <element signature="e#907#908#0" expanded="true" />
-                <element signature="e#1374#1375#0" expanded="true" />
-                <element signature="e#1401#1402#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BLEProxyDeviceAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
+            <state vertical-scroll-proportion="0.884375">
+              <caret line="721" column="81" selection-start-line="721" selection-start-column="81" selection-end-line="721" selection-end-column="81" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1908,9 +1786,7 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/CoapEndpoint.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_device.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_data.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECharacteristic.java" />
@@ -1920,14 +1796,16 @@
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPParser.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/coap/OptionNumberRegistry.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPCharacteristic.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/CharacteristicActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/GattTranslate.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java" />
       </list>
     </option>
   </component>
@@ -1942,9 +1820,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="38" />
+    <option name="x" value="45" />
     <option name="y" value="23" />
-    <option name="width" value="1402" />
+    <option name="width" value="1875" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -1970,9 +1848,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2645,13 +2522,14 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="8ed80ac5" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="7N2SRA1562035445" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_23_x86" />
     <property name="ToolWindowEvent Log.ShowToolbar" value="false" />
     <property name="FullScreen" value="false" />
@@ -2661,6 +2539,7 @@
     <property name="android.project.structure.last.selected" value="coap" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
@@ -2921,28 +2800,28 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="38" y="23" width="1402" height="877" extended-state="0" />
-    <editor active="true" />
+    <frame x="45" y="23" width="1875" height="877" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.49741316" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.49318057" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285151" sideWeight="0.49213162" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40998685" sideWeight="0.33382353" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33156216" sideWeight="0.5068194" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.49445677" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28777924" sideWeight="0.3985294" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32720104" sideWeight="0.49741316" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2858661" sideWeight="0.3949809" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32624868" sideWeight="0.49741316" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40998685" sideWeight="0.6661765" order="7" side_tool="false" content_ui="tabs" x="0" y="23" width="1440" height="877" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.54270697" sideWeight="0.6617567" order="7" side_tool="false" content_ui="tabs" x="0" y="23" width="1440" height="877" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.50554323" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2367647" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19858156" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892704" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3193167" sideWeight="0.71838236" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51379764" sideWeight="0.71838236" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2950,8 +2829,37 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39947438" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285151" sideWeight="0.4764706" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.47463176" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33156216" sideWeight="0.5068194" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24892704" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.51379764" sideWeight="0.71838236" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32943678" sideWeight="0.49318057" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285151" sideWeight="0.49213162" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39947438" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.49445677" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28646517" sideWeight="0.3949809" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32624868" sideWeight="0.49741316" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43889478" sideWeight="0.6617567" order="12" side_tool="false" content_ui="tabs" x="0" y="23" width="1440" height="877" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.50554323" order="13" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20840153" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32837406" sideWeight="0.47463176" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -2983,13 +2891,13 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
-          <line>977</line>
+          <line>1011</line>
           <properties />
           <option name="timeStamp" value="82" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java</url>
-          <line>108</line>
+          <line>109</line>
           <properties />
           <option name="timeStamp" value="120" />
         </line-breakpoint>
@@ -3019,7 +2927,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java</url>
-          <line>78</line>
+          <line>79</line>
           <properties />
           <option name="timeStamp" value="151" />
         </line-breakpoint>
@@ -3031,7 +2939,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
-          <line>286</line>
+          <line>293</line>
           <properties />
           <option name="timeStamp" value="164" />
         </line-breakpoint>
@@ -3049,19 +2957,19 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
-          <line>1314</line>
+          <line>1348</line>
           <properties />
           <option name="timeStamp" value="199" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
-          <line>1028</line>
+          <line>1062</line>
           <properties />
           <option name="timeStamp" value="200" />
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
-          <line>1296</line>
+          <line>1330</line>
           <properties />
           <option name="timeStamp" value="201" />
         </line-breakpoint>
@@ -3083,23 +2991,23 @@
           <properties />
           <option name="timeStamp" value="211" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java</url>
-          <line>180</line>
-          <properties />
-          <option name="timeStamp" value="223" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java</url>
-          <line>122</line>
+          <line>128</line>
           <properties />
           <option name="timeStamp" value="224" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java</url>
-          <line>80</line>
+          <line>86</line>
           <properties />
           <option name="timeStamp" value="225" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java</url>
+          <line>590</line>
+          <properties />
+          <option name="timeStamp" value="227" />
         </line-breakpoint>
         <line-breakpoint type="java-method">
           <url>file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/bluetooth/BluetoothGatt.java</url>
@@ -3111,7 +3019,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="226" />
+      <option name="time" value="228" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -3122,35 +3030,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/serialization/DataParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="11" selection-start-line="56" selection-start-column="11" selection-end-line="56" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/CoapEndpoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="599" column="41" selection-start-line="599" selection-start-column="41" selection-end-line="599" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/stack/AbstractLayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/stack/CoapStack.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="132" column="0" selection-start-line="132" selection-start-column="0" selection-end-line="132" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/network/serialization/Serializer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3276,19 +3155,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding>
-            <element signature="e#594#595#0" expanded="true" />
-            <element signature="e#632#633#0" expanded="true" />
-            <element signature="e#1342#1343#0" expanded="true" />
-            <element signature="e#1382#1383#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/Service.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3300,6 +3166,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3314,6 +3181,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="63" column="9" selection-start-line="63" selection-start-column="9" selection-end-line="63" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3343,6 +3213,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3357,9 +3228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="602.6667">
           <caret line="150" column="14" selection-start-line="150" selection-start-column="8" selection-end-line="150" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#950#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3374,6 +3242,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="24" column="23" selection-start-line="24" selection-start-column="23" selection-end-line="24" selection-end-column="23" />
+          <folding>
+            <element signature="e#579#580#0" expanded="true" />
+            <element signature="e#609#610#0" expanded="true" />
+            <element signature="e#642#643#0" expanded="true" />
+            <element signature="e#672#673#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -3385,32 +3259,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/Instrumentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="174" column="13" selection-start-line="174" selection-start-column="13" selection-end-line="174" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/bluetooth/BluetoothDevice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="856" column="0" selection-start-line="856" selection-start-column="0" selection-end-line="856" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="54" column="0" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -3420,46 +3272,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
           <folding>
-            <element signature="e#571#572#0" expanded="true" />
-            <element signature="e#615#616#0" expanded="true" />
+            <element signature="e#571#572#0" expanded="false" />
+            <element signature="e#615#616#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1685#1686#0" expanded="true" />
-            <element signature="e#1762#1763#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="13" selection-start-line="79" selection-start-column="13" selection-end-line="79" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3468,10 +3283,10 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="30" column="31" selection-start-line="30" selection-start-column="31" selection-end-line="30" selection-end-column="31" />
           <folding>
-            <element signature="e#880#881#0" expanded="true" />
-            <element signature="e#907#908#0" expanded="true" />
-            <element signature="e#1374#1375#0" expanded="true" />
-            <element signature="e#1401#1402#0" expanded="true" />
+            <element signature="e#880#881#0" expanded="false" />
+            <element signature="e#907#908#0" expanded="false" />
+            <element signature="e#1374#1375#0" expanded="false" />
+            <element signature="e#1401#1402#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3480,7 +3295,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.0">
           <caret line="0" column="23" selection-start-line="0" selection-start-column="22" selection-end-line="0" selection-end-column="23" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3492,27 +3306,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="681" column="20" selection-start-line="681" selection-start-column="8" selection-end-line="681" selection-end-column="20" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#12730#12731#0" expanded="true" />
-            <element signature="e#12818#12819#0" expanded="true" />
-            <element signature="e#24466#24467#0" expanded="true" />
-            <element signature="e#24515#24516#0" expanded="true" />
-            <element signature="e#48945#48946#0" expanded="true" />
-            <element signature="e#49001#49002#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="51" column="8" selection-start-line="51" selection-start-column="8" selection-end-line="51" selection-end-column="39" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3524,19 +3321,395 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/COAPDevice.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+          <caret line="92" column="15" selection-start-line="92" selection-start-column="15" selection-end-line="92" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleProxyParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/eclipse/californium/core/coap/OptionNumberRegistry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3206651">
+        <state vertical-scroll-proportion="0.0">
           <caret line="50" column="33" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#950#0" expanded="false" />
+            <element signature="e#4880#4881#0" expanded="false" />
+            <element signature="e#4916#4917#0" expanded="false" />
+            <element signature="e#5145#5146#0" expanded="false" />
+            <element signature="e#5182#5183#0" expanded="false" />
+            <element signature="e#5701#5702#0" expanded="false" />
+            <element signature="e#5738#5739#0" expanded="false" />
+            <element signature="e#6457#6458#0" expanded="false" />
+            <element signature="e#6498#6499#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/Activity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="6081" column="0" selection-start-line="6081" selection-start-column="0" selection-end-line="6081" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#280082#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#38135#38136#0" expanded="false" />
+            <element signature="e#38165#38166#0" expanded="false" />
+            <element signature="e#38552#38553#0" expanded="false" />
+            <element signature="e#38587#38588#0" expanded="false" />
+            <element signature="e#38695#38696#0" expanded="false" />
+            <element signature="e#38730#38731#0" expanded="false" />
+            <element signature="e#38833#38834#0" expanded="false" />
+            <element signature="e#38871#38872#0" expanded="false" />
+            <element signature="e#38985#38986#0" expanded="false" />
+            <element signature="e#39015#39016#0" expanded="false" />
+            <element signature="e#39129#39130#0" expanded="false" />
+            <element signature="e#39166#39167#0" expanded="false" />
+            <element signature="e#39514#39515#0" expanded="false" />
+            <element signature="e#39544#39545#0" expanded="false" />
+            <element signature="e#39681#39682#0" expanded="false" />
+            <element signature="e#39733#39734#0" expanded="false" />
+            <element signature="e#40075#40076#0" expanded="false" />
+            <element signature="e#40148#40149#0" expanded="false" />
+            <element signature="e#48983#48984#0" expanded="false" />
+            <element signature="e#49035#49036#0" expanded="false" />
+            <element signature="e#52431#52432#0" expanded="false" />
+            <element signature="e#52461#52462#0" expanded="false" />
+            <element signature="e#55061#55062#0" expanded="false" />
+            <element signature="e#55108#55109#0" expanded="false" />
+            <element signature="e#55966#55967#0" expanded="false" />
+            <element signature="e#56005#56006#0" expanded="false" />
+            <element signature="e#67446#67447#0" expanded="false" />
+            <element signature="e#67474#67475#0" expanded="false" />
+            <element signature="e#68254#68255#0" expanded="false" />
+            <element signature="e#68281#68282#0" expanded="false" />
+            <element signature="e#78226#78227#0" expanded="false" />
+            <element signature="e#78267#78268#0" expanded="false" />
+            <element signature="e#82550#82551#0" expanded="false" />
+            <element signature="e#82577#82578#0" expanded="false" />
+            <element signature="e#84275#84276#0" expanded="false" />
+            <element signature="e#84302#84303#0" expanded="false" />
+            <element signature="e#85757#85758#0" expanded="false" />
+            <element signature="e#85811#85812#0" expanded="false" />
+            <element signature="e#92856#92857#0" expanded="false" />
+            <element signature="e#92907#92908#0" expanded="false" />
+            <element signature="e#99266#99267#0" expanded="false" />
+            <element signature="e#99318#99319#0" expanded="false" />
+            <element signature="e#99488#99489#0" expanded="false" />
+            <element signature="e#99542#99543#0" expanded="false" />
+            <element signature="e#107363#107364#0" expanded="false" />
+            <element signature="e#107391#107392#0" expanded="false" />
+            <element signature="e#108766#108767#0" expanded="false" />
+            <element signature="e#108794#108795#0" expanded="false" />
+            <element signature="e#111490#111491#0" expanded="false" />
+            <element signature="e#111518#111519#0" expanded="false" />
+            <element signature="e#112748#112749#0" expanded="false" />
+            <element signature="e#112776#112777#0" expanded="false" />
+            <element signature="e#117258#117259#0" expanded="false" />
+            <element signature="e#117282#117283#0" expanded="false" />
+            <element signature="e#121787#121788#0" expanded="false" />
+            <element signature="e#121814#121815#0" expanded="false" />
+            <element signature="e#133758#133759#0" expanded="false" />
+            <element signature="e#133795#133796#0" expanded="false" />
+            <element signature="e#138032#138033#0" expanded="false" />
+            <element signature="e#138089#138090#0" expanded="false" />
+            <element signature="e#138425#138426#0" expanded="false" />
+            <element signature="e#138482#138483#0" expanded="false" />
+            <element signature="e#138784#138785#0" expanded="false" />
+            <element signature="e#138822#138823#0" expanded="false" />
+            <element signature="e#140695#140696#0" expanded="false" />
+            <element signature="e#140722#140723#0" expanded="false" />
+            <element signature="e#142424#142425#0" expanded="false" />
+            <element signature="e#142465#142466#0" expanded="false" />
+            <element signature="e#142659#142660#0" expanded="false" />
+            <element signature="e#142704#142705#0" expanded="false" />
+            <element signature="e#144414#144415#0" expanded="false" />
+            <element signature="e#144450#144451#0" expanded="false" />
+            <element signature="e#151513#151514#0" expanded="false" />
+            <element signature="e#151548#151549#0" expanded="false" />
+            <element signature="e#154871#154872#0" expanded="false" />
+            <element signature="e#154917#154918#0" expanded="false" />
+            <element signature="e#156672#156673#0" expanded="false" />
+            <element signature="e#156726#156727#0" expanded="false" />
+            <element signature="e#178899#178900#0" expanded="false" />
+            <element signature="e#178947#178948#0" expanded="false" />
+            <element signature="e#180755#180756#0" expanded="false" />
+            <element signature="e#180801#180802#0" expanded="false" />
+            <element signature="e#196008#196009#0" expanded="false" />
+            <element signature="e#196035#196036#0" expanded="false" />
+            <element signature="e#202194#202195#0" expanded="false" />
+            <element signature="e#202221#202222#0" expanded="false" />
+            <element signature="e#205912#205913#0" expanded="false" />
+            <element signature="e#205944#205945#0" expanded="false" />
+            <element signature="e#206123#206124#0" expanded="false" />
+            <element signature="e#206156#206157#0" expanded="false" />
+            <element signature="e#206720#206721#0" expanded="false" />
+            <element signature="e#206766#206767#0" expanded="false" />
+            <element signature="e#208671#208672#0" expanded="false" />
+            <element signature="e#208700#208701#0" expanded="false" />
+            <element signature="e#210420#210421#0" expanded="false" />
+            <element signature="e#210444#210445#0" expanded="false" />
+            <element signature="e#212615#212616#0" expanded="false" />
+            <element signature="e#212643#212644#0" expanded="false" />
+            <element signature="e#222590#222591#0" expanded="false" />
+            <element signature="e#222623#222624#0" expanded="false" />
+            <element signature="e#224858#224859#0" expanded="false" />
+            <element signature="e#224900#224901#0" expanded="false" />
+            <element signature="e#225492#225493#0" expanded="false" />
+            <element signature="e#225521#225522#0" expanded="false" />
+            <element signature="e#225561#225562#0" expanded="false" />
+            <element signature="e#225595#225596#0" expanded="false" />
+            <element signature="e#232061#232062#0" expanded="false" />
+            <element signature="e#232120#232121#0" expanded="false" />
+            <element signature="e#233529#233530#0" expanded="false" />
+            <element signature="e#233584#233585#0" expanded="false" />
+            <element signature="e#234727#234728#0" expanded="false" />
+            <element signature="e#234754#234755#0" expanded="false" />
+            <element signature="e#246717#246718#0" expanded="false" />
+            <element signature="e#246747#246748#0" expanded="false" />
+            <element signature="e#261243#261244#0" expanded="false" />
+            <element signature="e#261309#261310#0" expanded="false" />
+            <element signature="e#261778#261779#0" expanded="false" />
+            <element signature="e#261810#261811#0" expanded="false" />
+            <element signature="e#270644#270645#0" expanded="false" />
+            <element signature="e#270675#270676#0" expanded="false" />
+            <element signature="e#277465#277466#0" expanded="false" />
+            <element signature="e#277522#277523#0" expanded="false" />
+            <element signature="e#277796#277797#0" expanded="false" />
+            <element signature="e#277841#277842#0" expanded="false" />
+            <element signature="e#278494#278495#0" expanded="false" />
+            <element signature="e#278538#278539#0" expanded="false" />
+            <element signature="e#278605#278606#0" expanded="false" />
+            <element signature="e#278666#278667#0" expanded="false" />
+            <element signature="e#279380#279381#0" expanded="false" />
+            <element signature="e#279430#279431#0" expanded="false" />
+            <element signature="e#279842#279843#0" expanded="false" />
+            <element signature="e#279903#279904#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/Instrumentation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="1110" column="0" selection-start-line="1110" selection-start-column="0" selection-end-line="1110" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#76910#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#6411#6412#0" expanded="false" />
+            <element signature="e#6439#6440#0" expanded="false" />
+            <element signature="e#9114#9115#0" expanded="false" />
+            <element signature="e#9150#9151#0" expanded="false" />
+            <element signature="e#9362#9363#0" expanded="false" />
+            <element signature="e#9395#9396#0" expanded="false" />
+            <element signature="e#9922#9923#0" expanded="false" />
+            <element signature="e#9956#9957#0" expanded="false" />
+            <element signature="e#10174#10175#0" expanded="false" />
+            <element signature="e#10218#10219#0" expanded="false" />
+            <element signature="e#18260#18261#0" expanded="false" />
+            <element signature="e#18297#18298#0" expanded="false" />
+            <element signature="e#18471#18472#0" expanded="false" />
+            <element signature="e#18509#18510#0" expanded="false" />
+            <element signature="e#18730#18731#0" expanded="false" />
+            <element signature="e#18767#18768#0" expanded="false" />
+            <element signature="e#18902#18903#0" expanded="false" />
+            <element signature="e#18938#18939#0" expanded="false" />
+            <element signature="e#19108#19109#0" expanded="false" />
+            <element signature="e#19152#19153#0" expanded="false" />
+            <element signature="e#38172#38173#0" expanded="false" />
+            <element signature="e#38202#38203#0" expanded="false" />
+            <element signature="e#47433#47434#0" expanded="false" />
+            <element signature="e#47467#47468#0" expanded="false" />
+            <element signature="e#47751#47752#0" expanded="false" />
+            <element signature="e#47787#47788#0" expanded="false" />
+            <element signature="e#48782#48783#0" expanded="false" />
+            <element signature="e#48815#48816#0" expanded="false" />
+            <element signature="e#50092#50093#0" expanded="false" />
+            <element signature="e#50131#50132#0" expanded="false" />
+            <element signature="e#50459#50460#0" expanded="false" />
+            <element signature="e#50504#50505#0" expanded="false" />
+            <element signature="e#54171#54172#0" expanded="false" />
+            <element signature="e#54213#54214#0" expanded="false" />
+            <element signature="e#54333#54334#0" expanded="false" />
+            <element signature="e#54375#54376#0" expanded="false" />
+            <element signature="e#73998#73999#0" expanded="false" />
+            <element signature="e#74033#74034#0" expanded="false" />
+            <element signature="e#74919#74920#0" expanded="false" />
+            <element signature="e#74959#74960#0" expanded="false" />
+            <element signature="e#75599#75600#0" expanded="false" />
+            <element signature="e#75639#75640#0" expanded="false" />
+            <element signature="e#75823#75824#0" expanded="false" />
+            <element signature="e#75863#75864#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/app/ActivityThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2384" column="62" selection-start-line="2384" selection-start-column="62" selection-end-line="2384" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#230301#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#4831#4832#0" expanded="false" />
+            <element signature="e#4857#4858#0" expanded="false" />
+            <element signature="e#9984#9985#0" expanded="false" />
+            <element signature="e#10072#10073#0" expanded="false" />
+            <element signature="e#16920#16921#0" expanded="false" />
+            <element signature="e#16989#16990#0" expanded="false" />
+            <element signature="e#27992#27993#0" expanded="false" />
+            <element signature="e#28050#28051#0" expanded="false" />
+            <element signature="e#31500#31501#0" expanded="false" />
+            <element signature="e#31561#31562#0" expanded="false" />
+            <element signature="e#31608#31609#0" expanded="false" />
+            <element signature="e#31660#31661#0" expanded="false" />
+            <element signature="e#31890#31891#0" expanded="false" />
+            <element signature="e#31939#31940#0" expanded="false" />
+            <element signature="e#34173#34174#0" expanded="false" />
+            <element signature="e#34228#34229#0" expanded="false" />
+            <element signature="e#35771#35772#0" expanded="false" />
+            <element signature="e#35829#35830#0" expanded="false" />
+            <element signature="e#44327#44328#0" expanded="false" />
+            <element signature="e#44401#44402#0" expanded="false" />
+            <element signature="e#45573#45574#0" expanded="false" />
+            <element signature="e#45636#45637#0" expanded="false" />
+            <element signature="e#46109#46110#0" expanded="false" />
+            <element signature="e#46164#46165#0" expanded="false" />
+            <element signature="e#70890#70891#0" expanded="false" />
+            <element signature="e#70935#70936#0" expanded="false" />
+            <element signature="e#73469#73470#0" expanded="false" />
+            <element signature="e#73494#73495#0" expanded="false" />
+            <element signature="e#79872#79873#0" expanded="false" />
+            <element signature="e#79938#79939#0" expanded="false" />
+            <element signature="e#79997#79998#0" expanded="false" />
+            <element signature="e#80030#80031#0" expanded="false" />
+            <element signature="e#80085#80086#0" expanded="false" />
+            <element signature="e#80124#80125#0" expanded="false" />
+            <element signature="e#80322#80323#0" expanded="false" />
+            <element signature="e#80366#80367#0" expanded="false" />
+            <element signature="e#80399#80400#0" expanded="false" />
+            <element signature="e#80429#80430#0" expanded="false" />
+            <element signature="e#80472#80473#0" expanded="false" />
+            <element signature="e#80514#80515#0" expanded="false" />
+            <element signature="e#80552#80553#0" expanded="false" />
+            <element signature="e#80604#80605#0" expanded="false" />
+            <element signature="e#97700#97701#0" expanded="false" />
+            <element signature="e#97754#97755#0" expanded="false" />
+            <element signature="e#98295#98296#0" expanded="false" />
+            <element signature="e#98346#98347#0" expanded="false" />
+            <element signature="e#116044#116045#0" expanded="false" />
+            <element signature="e#116096#116097#0" expanded="false" />
+            <element signature="e#223255#223256#0" expanded="false" />
+            <element signature="e#223313#223314#0" expanded="false" />
+            <element signature="e#228033#228034#0" expanded="false" />
+            <element signature="e#228088#228089#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Android/sdk/sources/android-23/android/bluetooth/le/BluetoothLeScanner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15041494">
+          <caret line="334" column="13" selection-start-line="334" selection-start-column="13" selection-end-line="334" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/ServiceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2935685">
+          <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6721992">
+          <caret line="81" column="115" selection-start-line="81" selection-start-column="115" selection-end-line="81" selection-end-column="115" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEProxyDeviceAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2136929">
+          <caret line="99" column="62" selection-start-line="99" selection-start-column="62" selection-end-line="99" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.0529046">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLECallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5715768">
+          <caret line="81" column="32" selection-start-line="79" selection-start-column="20" selection-end-line="83" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BLEDevice.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.55709714">
+          <caret line="230" column="9" selection-start-line="230" selection-start-column="9" selection-end-line="230" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1352#1353#0" expanded="true" />
+            <element signature="e#2959#2960#0" expanded="true" />
+            <element signature="e#2990#2991#0" expanded="true" />
+            <element signature="e#3038#3039#0" expanded="true" />
+            <element signature="e#3078#3079#0" expanded="true" />
+            <element signature="e#5104#5595#0" expanded="true" />
+            <element signature="e#5594#5595#0" expanded="true" />
+            <element signature="e#6872#6873#0" expanded="true" />
+            <element signature="e#6903#6904#0" expanded="true" />
+            <element signature="e#7540#7541#0" expanded="true" />
+            <element signature="e#7592#7593#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/DeviceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23265742">
+          <caret line="45" column="51" selection-start-line="45" selection-start-column="50" selection-end-line="45" selection-end-column="51" />
+          <folding>
+            <element signature="e#1361#1983#0" expanded="true" />
+            <element signature="e#1982#1983#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/be/ugent/thomasrosseel/ble/BleListActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.884375">
+          <caret line="721" column="81" selection-start-line="721" selection-start-column="81" selection-end-line="721" selection-end-column="81" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

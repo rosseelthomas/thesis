@@ -1,5 +1,6 @@
 package be.ugent.thomasrosseel.ble;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
@@ -8,11 +9,14 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.os.Handler;
+import android.os.ParcelUuid;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -72,6 +76,8 @@ public class BLEDevice extends BLEProxyDevice {
 
             }
         };
+
+
         callback.addDisconnectListener(disconnectionListener);
 
         BLEEventListener connectionListener = new BLEEventListener() {
@@ -132,7 +138,7 @@ public class BLEDevice extends BLEProxyDevice {
                 public void onEvent(Object data) {
                     callback.removeConnectListener(this);
                     if (refresh_needed) {
-                        refreshDeviceCache(connection);
+                        //refreshDeviceCache(connection);
                         refresh_needed = false;
                     }
 
@@ -144,16 +150,28 @@ public class BLEDevice extends BLEProxyDevice {
             callback.addConnectListener(connectionListener);
 
 
-            connection = device.connectGatt(MyApplication.getAppContext(), false, callback);
+                    connection = device.connectGatt(MyApplication.getAppContext(), false, callback);
+
+
+
 
 
             try {
                 waiter.await(10, TimeUnit.SECONDS);
 
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (waiter.getCount() > 0) return false;
+            try {
+                synchronized (this){
+
+                    wait(600);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Log.i("connect", "connected");
 
 
@@ -172,7 +190,7 @@ public class BLEDevice extends BLEProxyDevice {
         if(!connected){
 
             connect();
-
+            refreshDeviceCache(connection);
 
         }
 
@@ -180,6 +198,8 @@ public class BLEDevice extends BLEProxyDevice {
 
         final Collection<Service> returnservices = new ArrayList<>();
         if(connected){
+
+            Log.d("gatt","discovering services");
             final CountDownLatch waiter = new CountDownLatch(1);
             final Collection<BLEService> services = new ArrayList<>();
 
@@ -236,7 +256,7 @@ public class BLEDevice extends BLEProxyDevice {
 
 
         connection.disconnect();
-
+        connection.close();
 
 
         try {

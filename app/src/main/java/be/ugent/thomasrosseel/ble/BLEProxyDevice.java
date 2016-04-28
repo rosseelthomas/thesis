@@ -77,7 +77,9 @@ public abstract class BLEProxyDevice implements Device {
     }
 
     public String toResource(){
-        return naam+";"+mac+";"+path+";"+getTtl()+";";
+        //return naam+";"+mac+";"+path+";"+getTtl()+";";
+        String interf = this instanceof BLEDevice ? "ble":"coap";
+        return "<"+path+">;ct=40;rt=\"sensor\";if=\""+interf+"\";mac=\""+mac+"\";title=\""+naam+"\";ttl="+getTtl();
     }
 
     @Override

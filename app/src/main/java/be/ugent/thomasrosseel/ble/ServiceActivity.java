@@ -41,7 +41,7 @@ public class ServiceActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ArrayAdapter<Service> adapter = new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<Service>());
+        final ArrayAdapter<Service> adapter = new ArrayAdapter<Service>(this, android.R.layout.simple_list_item_1, android.R.id.text1, new ArrayList<Service>());
         v.setAdapter(adapter);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -56,7 +56,13 @@ public class ServiceActivity extends AppCompatActivity {
                 return;
 
             }*/
-            adapter.addAll(device.discoverServices());
+           // runOnUiThread(new Runnable() {
+              //  @Override
+            //    public void run() {
+                    adapter.addAll(device.discoverServices());
+             //   }
+           // });
+
             //device.disconnect();
 
 
