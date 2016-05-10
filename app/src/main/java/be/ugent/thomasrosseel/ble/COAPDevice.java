@@ -10,6 +10,7 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.Option;
 import org.eclipse.californium.core.coap.OptionNumberRegistry;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -90,13 +91,17 @@ public class COAPDevice extends BLEProxyDevice {
         return true;
     }
 
-    public COAPDevice(String h, int p, String pa, String name, String mac, int ttl){
-        super(name,mac,"coap://"+h+":"+p+"/"+pa,ttl);
+    public COAPDevice(String h, int p, String pa, String name, String mac, String type, int ttl){
+        super(name,mac,"coap://"+h+":"+p+"/"+pa,type,ttl);
         host = h;
         port = p;
         path = pa;
         this.name = name;
-        setStatus("ONLINE");
+    }
+
+    public COAPDevice(String uri, String name, String mac, String type, int ttl){
+
+        this(URI.create(uri).getHost(), URI.create(uri).getPort(), URI.create(uri).getPath().substring(1), name, mac, type, ttl);
     }
 
 

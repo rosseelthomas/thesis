@@ -10,7 +10,7 @@ import java.net.URI;
  */
 public abstract class BLEProxyDevice implements Device {
 
-    private String naam, mac, path,status="DISCOVERED";
+    private String naam, mac, path,status="DISCOVERED", type="";
     private long millis_end;
 
 
@@ -18,6 +18,14 @@ public abstract class BLEProxyDevice implements Device {
 
     public void setStatusresource(DeviceResource statusresource) {
         this.statusresource = statusresource;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getNaam() {
@@ -67,19 +75,24 @@ public abstract class BLEProxyDevice implements Device {
         if(statusresource!=null){
             statusresource.changed();
         }
+
+        BleListActivity.getBleproxy().changed();
+
+
     }
 
-    public BLEProxyDevice(String naam, String mac, String path, int ttl) {
+    public BLEProxyDevice(String naam, String mac, String path, String type, int ttl) {
         this.naam = naam;
         this.mac = mac;
         this.path = path;
+        setType(type);
         setTtl(ttl);
     }
 
     public String toResource(){
         //return naam+";"+mac+";"+path+";"+getTtl()+";";
         String interf = this instanceof BLEDevice ? "ble":"coap";
-        return "<"+path+">;ct=40;rt=\"sensor\";if=\""+interf+"\";mac=\""+mac+"\";title=\""+naam+"\";ttl="+getTtl();
+        return "<"+path+">;ct=40;rt=\""+type+"\";if=\""+interf+"\";status=\""+getStatus()+"\";mac=\""+mac+"\";title=\""+naam+"\";ttl="+getTtl();
     }
 
     @Override

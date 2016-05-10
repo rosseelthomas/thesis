@@ -59,8 +59,8 @@ public class BLEDevice extends BLEProxyDevice {
         proxy_millis = System.currentTimeMillis() + ttl*1000;
     }
 
-    public BLEDevice(BluetoothDevice device, String path, int ttl) {
-        super(device.getName(), device.getAddress(), path, ttl);
+    public BLEDevice(BluetoothDevice device, String path, String type, int ttl) {
+        super(device.getName(), device.getAddress(), path, type, ttl);
         this.device = device;
         callback = new BLECallback();
         connected = false;

@@ -22,6 +22,7 @@ import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
+import android.os.ParcelUuid;
 import android.os.StrictMode;
 import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
@@ -109,7 +110,7 @@ public class BleListActivity extends AppCompatActivity {
     private ArrayList<BLEDevice> phydevices;
     private DeviceResource stateres;
     private String state = "ONLINE";
-    private DeviceResource bleproxy;
+    private static DeviceResource bleproxy;
     private DeviceResource bleres;
 
     private List<String> observing_ips;
@@ -237,6 +238,10 @@ public class BleListActivity extends AppCompatActivity {
     public BleListActivity() {
     }
 
+    public static DeviceResource getBleproxy() {
+        return bleproxy;
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -292,7 +297,7 @@ public class BleListActivity extends AppCompatActivity {
 
                 }
                 if(phydevice == null){//else adapt ttl
-                    String devicename = result.getDevice().getName();
+                    String devicename = result.getDevice().getName().replace(" ","");
                     String devicebase = devicename;
                     int suffix = 1;
                     while (containsResource(srv.getRoot().getChildren(), devicename)) {
@@ -307,7 +312,18 @@ public class BleListActivity extends AppCompatActivity {
                     bler.addDevice(devicename);
                     bler.addDevice(result.getDevice().getAddress());*/
 
-                    BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/ble/"+devicename, 120);
+                    String bpd_type = "";
+                    for(ParcelUuid parcelUuid : result.getScanRecord().getServiceUuids()){
+                        int result_uuid = (int) (parcelUuid.getUuid().getMostSignificantBits() >> 32);
+                        Gatt g_service = GattTranslate.getInstance().getGatt(result_uuid);
+                        if(g_service != null){
+                            bpd_type = g_service.getUri();
+                        }
+                    }
+
+
+
+                    BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/ble/"+devicename,bpd_type,120);
                     if(!alldevices.contains(bpd)){
                         alldevices.add(bpd);
                         bleproxy.changed();
@@ -322,7 +338,8 @@ public class BleListActivity extends AppCompatActivity {
 
                             }
                         });
-                        getAdapter(bpd).observeAll();
+                        //REMOVING OBSERVE
+                       // getAdapter(bpd).observeAll();
                     }else{
                         bpd = (BLEDevice)getPHYDeviceByMAC(result.getDevice().getAddress());
 
@@ -604,9 +621,13 @@ public class BleListActivity extends AppCompatActivity {
             @Override
             public void handleGET(CoapExchange ex) {
                 String s = "";
+
                 for (BLEProxyDevice d : alldevices) {
                     s += d.toResource();
                     s+=",";
+                }
+                if(s.isEmpty()){
+                    s=",";
                 }
                 ex.respond(s.substring(0, s.length()-1));
 
@@ -777,8 +798,8 @@ public class BleListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        mLEScanner.stopScan(mScanCallback);
-        Log.i("ble-scan","scan stopped");
+      //  mLEScanner.stopScan(mScanCallback);
+      //  Log.i("ble-scan","scan stopped");
     }
 
     public void refresh_click(View v) {
@@ -1130,8 +1151,8 @@ public class BleListActivity extends AppCompatActivity {
                                         BLEProxyDevice phydev = getPHYDeviceByMAC(b.getMac());
                                         if(phydev!=null && !phydevices.contains(b)){
                                             //als we dit device ook lokaal vinden,maar het niet het lokale device is, zetten we een observerelatie op
-
-                                            ((COAPDevice) b).observe(getAdapter(b));
+                                            //REMOVING OBSERVE
+                                            //((COAPDevice) b).observe(getAdapter(b));
 
                                         }
                                     }
@@ -1141,8 +1162,11 @@ public class BleListActivity extends AppCompatActivity {
                                     URI u = URI.create(dev.getPath());
                                     if(u.getHost().equals(resp.getSource().getHostAddress())){
                                         dev.setTtl(b.getTtl());
+
+                                        dev.setStatus(b.getStatus());
                                     }
-                                    ((COAPDevice) dev).observe(getAdapter(dev));
+                                    //REMOVING OBSERVE
+                                    //((COAPDevice) dev).observe(getAdapter(dev));
 
                                 }
 
@@ -1357,6 +1381,7 @@ public class BleListActivity extends AppCompatActivity {
                         URI u = URI.create(find.getPath());
                         if(u.getHost().equals(response.advanced().getSource().getHostAddress())){
                             find.setTtl(bleProxyDevice.getTtl());
+                            find.setStatus(bleProxyDevice.getStatus());
                         }
 
                     }
