@@ -76,8 +76,8 @@ public abstract class BLEProxyDevice implements Device {
             statusresource.changed();
         }
 
-        BleListActivity.getBleproxy().changed();
-
+        //BleListActivity.getBleproxy().changed();
+            BleListActivity.sendProxyPUT();
 
     }
 

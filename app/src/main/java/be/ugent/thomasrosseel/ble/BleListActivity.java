@@ -106,11 +106,12 @@ public class BleListActivity extends AppCompatActivity {
     private NsdManager.DiscoveryListener mDiscoveryListener;
     private  boolean discovering;
     private ArrayList<String> macs;
-    private ArrayList<BLEProxyDevice> alldevices;
+    private static ArrayList<BLEProxyDevice> alldevices;
     private ArrayList<BLEDevice> phydevices;
     private DeviceResource stateres;
     private String state = "ONLINE";
     private static DeviceResource bleproxy;
+    private static long put_timer=System.currentTimeMillis() + 120*1000;
     private DeviceResource bleres;
 
     private List<String> observing_ips;
@@ -171,6 +172,10 @@ public class BleListActivity extends AppCompatActivity {
                     d.setStatus("DISCOVERED");
                 }
 
+            }
+
+            if((int)(put_timer- System.currentTimeMillis())/1000 < 60 ){
+                sendProxyPUT();
             }
 
         }
@@ -326,7 +331,8 @@ public class BleListActivity extends AppCompatActivity {
                     BLEDevice bpd = new BLEDevice(result.getDevice(), "coap://"+getIPAddress(true)+":5683/ble/"+devicename,bpd_type,120);
                     if(!alldevices.contains(bpd)){
                         alldevices.add(bpd);
-                        bleproxy.changed();
+                        //bleproxy.changed();
+                        sendProxyPUT();
                         ListView l = (ListView) findViewById(R.id.list);
                         final ArrayAdapter<BLEProxyDeviceAdapter> arradapter = (ArrayAdapter<BLEProxyDeviceAdapter>) l.getAdapter();
                         runOnUiThread(new Runnable() {
@@ -633,12 +639,23 @@ public class BleListActivity extends AppCompatActivity {
 
                 if (!observing_ips.contains(ex.getSourceAddress().getHostAddress())) {
                     //start observe
-                    startProxyObserve(ex.getSourceAddress().getHostAddress());
+                    //startProxyObserve(ex.getSourceAddress().getHostAddress());
                 }
             }
 
             @Override
             public void handlePUT(CoapExchange ex) {
+                String p = ex.getRequestText();
+                List<BLEProxyDevice> deviceList = BleProxyParser.parse(p, ex.advanced().getRequest().getSource().getHostAddress());
+                for(BLEProxyDevice dev : deviceList){
+                    BLEProxyDevice locdev = searchDevice(dev.getMac(), dev.getPath());
+                    if(locdev!=null && URI.create(locdev.getPath()).getHost().equals(ex.getSourceAddress().getHostAddress())){
+                        locdev.setStatus(dev.getStatus());
+                        locdev.setTtl(dev.getTtl());
+                    }else if(locdev==null){
+                        alldevices.add(dev);
+                    }
+                }
 
             }
         });
@@ -1222,7 +1239,7 @@ public class BleListActivity extends AppCompatActivity {
     }
 
     public void sendBroadcast(String messageStr) {
-        // Hack Prevent crash (sending should be done using an async task)
+
         StrictMode.ThreadPolicy policy = new   StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -1233,7 +1250,6 @@ public class BleListActivity extends AppCompatActivity {
             byte[] sendData = messageStr.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName("255.255.255.255"), 6666);
             socket.send(sendPacket);
-            System.out.println(getClass().getName() + "Broadcast packet sent to: " + "255.255.255.255");
         } catch (IOException e) {
             Log.d("broadcast", "IOException: " + e.getMessage());
         }
@@ -1357,6 +1373,7 @@ public class BleListActivity extends AppCompatActivity {
         coapClient.observe(new CoapHandler() {
             @Override
             public void onLoad(CoapResponse response) {
+
                 List<BLEProxyDevice> bleProxyDeviceList;
                 try{
                     bleProxyDeviceList = BleProxyParser.parse(response.getResponseText(), response.advanced().getSource().getHostAddress());
@@ -1394,6 +1411,45 @@ public class BleListActivity extends AppCompatActivity {
                 observing_ips.remove(ip);
             }
         });
+    }
+
+    public static void sendProxyPUT(){
+
+        try {
+            URI uri = new URI("coap", null, "255.255.255.255", COAP_PORT, "/ble-proxy", null, null);
+
+            InetSocketAddress addr = new InetSocketAddress(0);
+
+
+
+            final Request coapRequest = Request.newPut();
+            coapRequest.setURI(uri);
+
+            coapRequest.setSource(addr.getAddress());
+
+            coapRequest.setType(CoAP.Type.NON);
+            coapRequest.setMulticast(true);
+
+            String s = "";
+
+            for (BLEProxyDevice d : alldevices) {
+                s += d.toResource();
+                s+=",";
+            }
+            if(s.isEmpty()){
+                s=",";
+            }
+            s = s.substring(0, s.length() - 1);
+            coapRequest.setPayload(s);
+            coapRequest.send();
+
+            put_timer=System.currentTimeMillis() + 120*1000;
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
