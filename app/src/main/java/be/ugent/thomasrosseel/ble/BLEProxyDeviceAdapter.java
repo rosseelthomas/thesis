@@ -68,7 +68,7 @@ public class BLEProxyDeviceAdapter implements CoapHandler{
         return getName()+"\n"+getMac()+"\n via "+devices.size()+(devices.size() == 1 ? " apparaat" : " apparaten")+st;
 
     }
-    //TODO: ADAPT THIS, TESTING PURPOSES ONLY
+
     public void connect(){
         for(BLEProxyDevice b : (ArrayList<BLEProxyDevice>)devices.clone()){
             if(b instanceof BLEDevice) {
