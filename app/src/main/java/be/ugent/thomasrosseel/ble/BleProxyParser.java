@@ -96,6 +96,7 @@ public class BleProxyParser {
         if(now_parsing!=null){
             //add ble device
             BLEProxyDevice dev = new COAPDevice(now_parsing.get("uri"),now_parsing.get("title"),now_parsing.get("mac"),now_parsing.get("rt"),Integer.parseInt(now_parsing.get("ttl")));
+            dev.setStatus(now_parsing.get("status"));
             parsed.add(dev);
         }
         return parsed;

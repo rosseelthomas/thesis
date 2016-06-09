@@ -649,8 +649,16 @@ public class BleListActivity extends AppCompatActivity {
                 List<BLEProxyDevice> deviceList = BleProxyParser.parse(p, ex.advanced().getRequest().getSource().getHostAddress());
                 for(BLEProxyDevice dev : deviceList){
                     BLEProxyDevice locdev = searchDevice(dev.getMac(), dev.getPath());
-                    if(locdev!=null && URI.create(locdev.getPath()).getHost().equals(ex.getSourceAddress().getHostAddress())){
+                    if(locdev!=null && URI.create(locdev.getPath()).getHost().equals(ex.getSourceAddress().getHostAddress()) && !URI.create(locdev.getPath()).getHost().equals(getIPAddress(true))){
                         locdev.setStatus(dev.getStatus());
+                        BLEDevice macdevice = (BLEDevice)getPHYDeviceByMAC(locdev.getMac());
+                        if(macdevice!=null && dev.getStatus().equals("CONNECTED") && !macdevice.getStatus().startsWith("PROXY")){
+                            macdevice.setStatus("PROXY");
+                            macdevice.setProxy_ip(ex.getSourceAddress().getHostAddress());
+                            macdevice.setProxyTtl(dev.getTtl());
+                            sendProxyPUT();
+
+                        }
                         locdev.setTtl(dev.getTtl());
                     }else if(locdev==null){
                         alldevices.add(dev);
