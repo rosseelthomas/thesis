@@ -47,7 +47,10 @@ public class COAPDevice extends BLEProxyDevice {
 
         CoapClient resource_browser = new CoapClient("coap",host,port,path);
         CoapResponse response = resource_browser.get();
-        if(response!=null){
+        while(response==null || response.getResponseText().isEmpty()){
+            response = resource_browser.get();
+        }
+        if(response!=null && !response.getResponseText().isEmpty()){
             String ip = host;
             if(response.getOptions().hasOption(OptionNumberRegistry.REDIRECT)){
                 List<Option> options = response.getOptions().asSortedList();
@@ -61,6 +64,7 @@ public class COAPDevice extends BLEProxyDevice {
             }
 
             String txt = response.getResponseText();
+
 
             ParseResult p = COAPParser.parseDevice(txt);
             String base = "coap://"+ip+":"+port+"/"+path;

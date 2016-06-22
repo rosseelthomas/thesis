@@ -403,9 +403,10 @@ public class BleListActivity extends AppCompatActivity {
                                 Collection<Service> services = finalBpd.discoverServices();
 
                                 if(!t.isExposed()){
-                                    t.expose();
+
 
                                     for(Service s : services){
+                                        t.expose();
                                         int uuid = (int) (s.getUUID().getMostSignificantBits() >> 32);
                                         Gatt g_service = GattTranslate.getInstance().getGatt(uuid);
                                         if (g_service == null) {
@@ -658,6 +659,8 @@ public class BleListActivity extends AppCompatActivity {
                             macdevice.setProxyTtl(dev.getTtl());
                             sendProxyPUT();
 
+                        }else if(macdevice!=null && dev.getStatus().equals("CONNECTED") && macdevice.getStatus().startsWith("PROXY")){
+                            macdevice.setProxyTtl(dev.getTtl());
                         }
                         locdev.setTtl(dev.getTtl());
                     }else if(locdev==null){
@@ -1336,32 +1339,32 @@ public class BleListActivity extends AppCompatActivity {
 
     private Collection<BLEProxyDeviceAdapter> getProxyAdapterCollection(){
 
-
+        HashMap<String, BLEProxyDeviceAdapter> proxymap = (HashMap<String, BLEProxyDeviceAdapter>) proxyAdapterMap.clone();
 
         for(BLEProxyDevice device : (ArrayList<BLEProxyDevice>)alldevices.clone()){
 
-            if(proxyAdapterMap.get(device.getMac())==null){
+            if(proxymap.get(device.getMac())==null){
                 //nog geen adapter voor deze mac
-                proxyAdapterMap.put(device.getMac(), new BLEProxyDeviceAdapter());
+                proxymap.put(device.getMac(), new BLEProxyDeviceAdapter());
 
             }
 
-            if(!proxyAdapterMap.get(device.getMac()).getAllDevices().contains(device)){
+            if(!proxymap.get(device.getMac()).getAllDevices().contains(device)){
                 //adapter bestaat al, maar device zit er nog niet in
-                proxyAdapterMap.get(device.getMac()).addDevice(device);
+                proxymap.get(device.getMac()).addDevice(device);
             }
 
 
         }
-        Iterator<String> it = proxyAdapterMap.keySet().iterator();
+        Iterator<String> it = proxymap.keySet().iterator();
         while(it.hasNext()){
             String mac = it.next();
-            if(proxyAdapterMap.get(mac).getAllDevices().isEmpty()){
-                proxyAdapterMap.remove(mac);
+            if(proxymap.get(mac).getAllDevices().isEmpty()){
+                proxymap.remove(mac);
             }
         }
 
-        return proxyAdapterMap.values();
+        return proxymap.values();
     }
 
 

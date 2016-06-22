@@ -59,6 +59,14 @@ public class BLEDevice extends BLEProxyDevice {
         proxy_millis = System.currentTimeMillis() + ttl*1000;
     }
 
+    @java.lang.Override
+    public int getTtl() {
+        if(getStatus().startsWith("PROXY")){
+            return getProxyTtl();
+        }
+        return super.getTtl();
+    }
+
     public BLEDevice(BluetoothDevice device, String path, String type, int ttl) {
         super(device.getName(), device.getAddress(), path, type, ttl);
         this.device = device;
@@ -137,10 +145,10 @@ public class BLEDevice extends BLEProxyDevice {
                 @Override
                 public void onEvent(Object data) {
                     callback.removeConnectListener(this);
-                    if (refresh_needed) {
-                        //refreshDeviceCache(connection);
-                        refresh_needed = false;
-                    }
+                    //if (refresh_needed) {
+                        refreshDeviceCache(connection);
+                        //refresh_needed = false;
+                    //}
 
                     waiter.countDown();
 
@@ -164,14 +172,15 @@ public class BLEDevice extends BLEProxyDevice {
                 e.printStackTrace();
             }
             if (waiter.getCount() > 0) return false;
-            try {
+            /*try {
                 synchronized (this){
 
                     wait(600);
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
+            android.os.SystemClock.sleep(2000);
             Log.i("connect", "connected");
 
 
